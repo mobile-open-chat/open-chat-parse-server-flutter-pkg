@@ -1,4 +1,4 @@
-import 'package:flutter_parse_chat/src/messages/domain/entities/messages_base.dart';
+import 'messages_base.dart';
 
 enum ReceivedMessageDeliveryState {
   /// The init value ware the message was sent to the server

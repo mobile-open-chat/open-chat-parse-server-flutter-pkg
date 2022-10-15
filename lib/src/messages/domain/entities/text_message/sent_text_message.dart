@@ -1,5 +1,4 @@
-import 'package:flutter_parse_chat/src/core/utils/undefined.dart';
-
+import '../../../../core/utils/undefined.dart';
 import '../sent_message_base.dart';
 
 class SentTextMessage extends SentMessageBase {

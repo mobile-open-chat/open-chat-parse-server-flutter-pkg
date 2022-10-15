@@ -1,8 +1,6 @@
-
 import '../received_message_base.dart';
 
 class ReceivedTextMessage extends ReceivedMessageBase {
-  
   final String textMessage;
 
   const ReceivedTextMessage({
@@ -14,6 +12,7 @@ class ReceivedTextMessage extends ReceivedMessageBase {
     required super.localReceivedDate,
     required super.remoteSentDate,
     required super.messageDeliveryState,
+    required super.isLiveMessage,
     required this.textMessage,
   });
 
@@ -27,6 +26,7 @@ class ReceivedTextMessage extends ReceivedMessageBase {
         localReceivedDate,
         remoteSentDate,
         messageDeliveryState,
+        isLiveMessage,
         textMessage
       ];
 }

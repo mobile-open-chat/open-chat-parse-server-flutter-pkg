@@ -13,6 +13,7 @@ enum ReceivedMessageDeliveryState {
 
 abstract class ReceivedMessageBase extends MessageBase {
   final ReceivedMessageDeliveryState messageDeliveryState;
+  final bool isLiveMessage;
 
   const ReceivedMessageBase({
     required super.localMessageId,
@@ -23,5 +24,6 @@ abstract class ReceivedMessageBase extends MessageBase {
     required super.localReceivedDate,
     required super.remoteSentDate,
     required this.messageDeliveryState,
+    required this.isLiveMessage,
   });
 }

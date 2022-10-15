@@ -13,6 +13,7 @@ class ReceivedImageMessage extends ReceivedMessageBase {
     required super.localReceivedDate,
     required super.remoteSentDate,
     required super.messageDeliveryState,
+    required super.isLiveMessage,
     required this.receivedImage,
   });
 
@@ -26,6 +27,7 @@ class ReceivedImageMessage extends ReceivedMessageBase {
         localReceivedDate,
         remoteSentDate,
         messageDeliveryState,
+        isLiveMessage,
         receivedImage,
       ];
 }

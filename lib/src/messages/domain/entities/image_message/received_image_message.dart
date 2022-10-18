@@ -19,7 +19,7 @@ class ReceivedImageMessage extends ReceivedMessageBase {
   });
 
   ReceivedImageMessage copyWith({
-    String? localMessageId,
+    int? localMessageId,
     Object? remoteMessageId = undefined,
     String? senderId,
     String? receiverId,

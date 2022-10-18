@@ -26,7 +26,6 @@ abstract class SentMessageBase extends MessageBase {
     required super.senderId,
     required super.receiverId,
     required super.localSentDate,
-    required super.localReceivedDate,
     required super.remoteSentDate,
     required this.messageDeliveryState,
   });

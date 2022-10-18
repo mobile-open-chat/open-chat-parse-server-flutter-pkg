@@ -18,7 +18,7 @@ class ReceivedTextMessage extends ReceivedMessageBase {
   });
 
   ReceivedTextMessage copyWith({
-    String? localMessageId,
+    int? localMessageId,
     Object? remoteMessageId = undefined,
     String? senderId,
     String? receiverId,

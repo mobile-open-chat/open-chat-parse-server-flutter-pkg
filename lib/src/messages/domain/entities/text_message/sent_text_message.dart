@@ -10,19 +10,17 @@ class SentTextMessage extends SentMessageBase {
     required super.senderId,
     required super.receiverId,
     required super.localSentDate,
-    required super.localReceivedDate,
     required super.remoteSentDate,
     required super.messageDeliveryState,
     required this.textMessage,
   });
 
   SentTextMessage copyWith({
-    String? localMessageId,
+    int? localMessageId,
     Object? remoteMessageId = undefined,
     String? senderId,
     String? receiverId,
     DateTime? localSentDate,
-    DateTime? localReceivedDate,
     Object? remoteSentDate = undefined,
     SentMessageDeliveryState? messageDeliveryState,
     String? textMessage,
@@ -35,7 +33,6 @@ class SentTextMessage extends SentMessageBase {
       senderId: senderId ?? this.senderId,
       receiverId: receiverId ?? this.receiverId,
       localSentDate: localSentDate ?? this.localSentDate,
-      localReceivedDate: localReceivedDate ?? this.localReceivedDate,
       remoteSentDate: isNotPassedParameter(remoteSentDate)
           ? this.remoteSentDate
           : (remoteSentDate as DateTime?),
@@ -51,7 +48,6 @@ class SentTextMessage extends SentMessageBase {
         senderId,
         receiverId,
         localSentDate,
-        localReceivedDate,
         remoteSentDate,
         messageDeliveryState,
         textMessage

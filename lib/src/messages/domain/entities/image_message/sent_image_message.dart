@@ -11,19 +11,17 @@ class SentImageMessage extends SentMessageBase {
     required super.senderId,
     required super.receiverId,
     required super.localSentDate,
-    required super.localReceivedDate,
     required super.remoteSentDate,
     required super.messageDeliveryState,
     required this.sentImage,
   });
 
   SentImageMessage copyWith({
-    String? localMessageId,
+    int? localMessageId,
     Object? remoteMessageId = undefined,
     String? senderId,
     String? receiverId,
     DateTime? localSentDate,
-    DateTime? localReceivedDate,
     Object? remoteSentDate = undefined,
     SentMessageDeliveryState? messageDeliveryState,
     Image? sentImage,
@@ -36,7 +34,6 @@ class SentImageMessage extends SentMessageBase {
       senderId: senderId ?? this.senderId,
       receiverId: receiverId ?? this.receiverId,
       localSentDate: localSentDate ?? this.localSentDate,
-      localReceivedDate: localReceivedDate ?? this.localReceivedDate,
       remoteSentDate: isNotPassedParameter(remoteSentDate)
           ? this.remoteSentDate
           : (remoteSentDate as DateTime?),
@@ -52,7 +49,6 @@ class SentImageMessage extends SentMessageBase {
         senderId,
         receiverId,
         localSentDate,
-        localReceivedDate,
         remoteSentDate,
         messageDeliveryState,
         sentImage,

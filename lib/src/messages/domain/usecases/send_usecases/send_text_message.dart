@@ -1,20 +1,21 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/error/failures/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../../../core/utils/either.dart';
+import '../../../utils/chat_typedef.dart';
 import '../../entities/sent_message_base.dart';
 import '../../entities/text_message/sent_text_message.dart';
 import '../../repositories/messages_repository.dart';
 
 class SendTextMessage
-    implements UseCase<SentTextMessage, SendTextMessageParams> {
+    implements
+        UseCase<SendTextMessageParams, Future<FailureOrSentTextMessage>> {
   final MessagesRepository _messagesRepository;
 
   SendTextMessage(this._messagesRepository);
 
   @override
-  Future<Either<Failure, SentTextMessage>> call(
+  Future<FailureOrSentTextMessage> call(
     SendTextMessageParams params,
   ) async {
     final dateTime = DateTime.now();

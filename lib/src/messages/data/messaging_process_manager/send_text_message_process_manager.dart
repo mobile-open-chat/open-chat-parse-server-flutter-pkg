@@ -1,9 +1,8 @@
 import 'dart:collection';
 
-import 'package:flutter_parse_chat/src/core/error/exceptions/exception_base.dart';
-
 import '../../../core/data/process_manager_base/process_manager_base.dart';
 import '../../../core/error/exceptions/cache_exception.dart';
+import '../../../core/error/exceptions/exception_base.dart';
 import '../../../core/error/exceptions/server_exception.dart';
 import '../../../core/error/exceptions/user_exception.dart';
 import '../../../core/utils/either.dart';

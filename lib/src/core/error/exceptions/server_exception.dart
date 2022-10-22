@@ -1,6 +1,6 @@
-import 'package:flutter_parse_chat/src/core/error/failures/failures.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
+import '../failures/failures.dart';
 import 'exception_base.dart';
 
 abstract class ServerException extends ExceptionBase {

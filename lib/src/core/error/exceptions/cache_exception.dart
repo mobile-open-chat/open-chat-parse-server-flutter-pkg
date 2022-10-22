@@ -1,4 +1,4 @@
-import 'package:flutter_parse_chat/src/core/error/failures/failures.dart';
+import '../failures/failures.dart';
 
 import 'exception_base.dart';
 

@@ -7,10 +7,9 @@ class SentTextMessage extends SentMessageBase {
   const SentTextMessage({
     required super.localMessageId,
     required super.remoteMessageId,
-    required super.senderId,
-    required super.receiverId,
+    required super.userId,
     required super.localSentDate,
-    required super.remoteSentDate,
+    required super.remoteCreationDate,
     required super.messageDeliveryState,
     required this.textMessage,
   });
@@ -18,10 +17,9 @@ class SentTextMessage extends SentMessageBase {
   SentTextMessage copyWith({
     int? localMessageId,
     Object? remoteMessageId = undefined,
-    String? senderId,
-    String? receiverId,
+    String? userId,
     DateTime? localSentDate,
-    Object? remoteSentDate = undefined,
+    Object? remoteCreationDate = undefined,
     SentMessageDeliveryState? messageDeliveryState,
     String? textMessage,
   }) {
@@ -30,12 +28,11 @@ class SentTextMessage extends SentMessageBase {
       remoteMessageId: isNotPassedParameter(remoteMessageId)
           ? this.remoteMessageId
           : (remoteMessageId as String?),
-      senderId: senderId ?? this.senderId,
-      receiverId: receiverId ?? this.receiverId,
+      userId: userId ?? this.userId,
       localSentDate: localSentDate ?? this.localSentDate,
-      remoteSentDate: isNotPassedParameter(remoteSentDate)
-          ? this.remoteSentDate
-          : (remoteSentDate as DateTime?),
+      remoteCreationDate: isNotPassedParameter(remoteCreationDate)
+          ? this.remoteCreationDate
+          : (remoteCreationDate as DateTime?),
       messageDeliveryState: messageDeliveryState ?? this.messageDeliveryState,
       textMessage: textMessage ?? this.textMessage,
     );
@@ -45,10 +42,9 @@ class SentTextMessage extends SentMessageBase {
   List<Object?> get props => [
         localMessageId,
         remoteMessageId,
-        senderId,
-        receiverId,
+        userId,
         localSentDate,
-        remoteSentDate,
+        remoteCreationDate,
         messageDeliveryState,
         textMessage
       ];

@@ -3,17 +3,15 @@ import 'package:equatable/equatable.dart';
 abstract class MessageBase extends Equatable {
   final int localMessageId;
   final String? remoteMessageId;
-  final String senderId;
-  final String receiverId;
+  final String userId;
   final DateTime localSentDate;
-  final DateTime? remoteSentDate;
+  final DateTime? remoteCreationDate;
 
   const MessageBase({
     required this.localMessageId,
     required this.remoteMessageId,
-    required this.senderId,
-    required this.receiverId,
+    required this.userId,
     required this.localSentDate,
-    required this.remoteSentDate,
+    required this.remoteCreationDate,
   });
 }

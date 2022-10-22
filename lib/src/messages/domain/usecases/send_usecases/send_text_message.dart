@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_parse_chat/src/core/error/failures.dart';
 
+import '../../../../core/error/failures/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../../../core/utils/either.dart';
 import '../../entities/sent_message_base.dart';
@@ -12,39 +12,36 @@ class SendTextMessage
   final MessagesRepository _messagesRepository;
 
   SendTextMessage(this._messagesRepository);
+
   @override
   Future<Either<Failure, SentTextMessage>> call(
     SendTextMessageParams params,
   ) async {
-    final senderIdResult = await _messagesRepository.getCurrentUserId();
-    String senderId;
+    final dateTime = DateTime.now();
 
-    if (senderIdResult.isLeft()) {
-      return Left(senderIdResult.getLeftValue());
-    } else {
-      senderId = senderIdResult.getRightValue();
-    }
-    final dateTimeNow = DateTime.now();
     var message = SentTextMessage(
       localMessageId: -1,
-      senderId: senderId,
-      localSentDate: dateTimeNow,
-      receiverId: params.receiverId,
+      localSentDate: dateTime,
+      userId: params.receiverId,
       messageDeliveryState: SentMessageDeliveryState.pending,
       textMessage: params.textMessage,
       remoteMessageId: null,
-      remoteSentDate: null,
+      remoteCreationDate: null,
     );
 
     if (params.localMessageId == null) {
-      message =
-          message.copyWith(localMessageId: dateTimeNow.microsecondsSinceEpoch);
+      message = message.copyWith(
+        localMessageId: dateTime.microsecondsSinceEpoch,
+      );
       // send the message and return immediately to show the user that the message
       // sending in progress.
-      _messagesRepository.sentTextMessage(message);
+      _messagesRepository.sendTextMessage(message);
       return Right(message);
     } else {
-      return _messagesRepository.sentTextMessage(message);
+      message = message.copyWith(
+        localMessageId: params.localMessageId,
+      );
+      return _messagesRepository.sendTextMessage(message);
     }
   }
 }
@@ -52,7 +49,7 @@ class SendTextMessage
 class SendTextMessageParams extends Equatable {
   final String textMessage;
   final String receiverId;
-  final String? localMessageId;
+  final int? localMessageId;
 
   const SendTextMessageParams({
     required this.textMessage,

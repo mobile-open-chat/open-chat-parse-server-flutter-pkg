@@ -23,11 +23,11 @@ dependencies:
 
   # Utils & tools
   image_picker: ^0.8.6
-  dartz: ^0.10.1
   rxdart: ^0.27.5
   stream_transform: ^2.0.1
   get_it: ^7.2.0
   path_provider: ^2.0.11
+  path: ^1.8.2
   permission_handler: ^10.1.0
   collection: ^1.16.0
 
@@ -37,7 +37,6 @@ dependencies:
 
   # Data quality
   equatable: ^2.0.5
-  freezed: ^2.2.0
 
   # Database
   isar: *isar_version

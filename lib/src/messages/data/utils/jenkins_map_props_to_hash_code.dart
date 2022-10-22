@@ -1,3 +1,5 @@
+// ignore_for_file: parameter_assignments, avoid_dynamic_calls, unnecessary_parenthesis
+
 import 'package:collection/collection.dart';
 
 /// Returns a `hashCode` for [props].

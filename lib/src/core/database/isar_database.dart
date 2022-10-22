@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:isar/isar.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 import '../../messages/data/datasources/local/models/messages_collection_model.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:path/path.dart' as path;
+
 
 class IsarDataBase {
   final String userId;
@@ -28,8 +29,6 @@ class IsarDataBase {
       [MessagesCollectionModelSchema],
       directory: dbPath,
       name: userId,
-      relaxedDurability: true,
-      inspector: true,
       compactOnLaunch: CompactCondition(),
     );
   }

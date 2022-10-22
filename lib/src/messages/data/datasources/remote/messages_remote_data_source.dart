@@ -20,12 +20,13 @@ class MessagesRemoteDataSourceImpl extends MessagesRemoteDataSource {
       sendTextResponse = await message.create();
     } catch (error) {
       throw const InternetConnectionException(
-          'Can not sent text message, connection exception');
+        'Can not sent text message, connection exception',
+      );
     }
     if (sendTextResponse.success &&
         sendTextResponse.results != null &&
         sendTextResponse.count != 0) {
-      return sendTextResponse.results!.first;
+      return sendTextResponse.results!.first as RemoteMessageModel;
     } else {
       throw ParseException.extractParseException(sendTextResponse.error);
     }

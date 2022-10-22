@@ -26,10 +26,10 @@ class ReceivedTextMessageModel extends ReceivedTextMessage
       ..textMessage = (TextMessage()..text = textMessage);
   }
 
-  factory ReceivedTextMessageModel.fromRemoteModel(
-    RemoteMessageModel remoteModel,
-    bool isLiveMessage,
-  ) {
+  factory ReceivedTextMessageModel.fromRemoteModel({
+    required RemoteMessageModel remoteModel,
+    required bool isLiveMessage,
+  }) {
     return ReceivedTextMessageModel(
       localMessageId: remoteModel.sentDate.microsecondsSinceEpoch,
       remoteMessageId: remoteModel.remoteMessageId,

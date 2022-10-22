@@ -9,6 +9,6 @@ abstract class UserLocalDataSource {
 class UserLocalDataSourceImpl extends UserLocalDataSource {
   @override
   Future<String?> getCurrentUserId() async {
-    return ((await ParseUser.currentUser()) as CustomParseUser?)?.userId;
+    return (await ParseUser.currentUser() as CustomParseUser?)?.userId;
   }
 }

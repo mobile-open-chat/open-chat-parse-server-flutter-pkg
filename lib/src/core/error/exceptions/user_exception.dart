@@ -3,7 +3,7 @@ import 'package:flutter_parse_chat/src/core/error/failures/failures.dart';
 import 'exception_base.dart';
 
 class InternetConnectionException extends ExceptionBase {
-  const InternetConnectionException(String message) : super(message);
+  const InternetConnectionException(super.message);
 
   @override
   Failure asFailure() {
@@ -12,7 +12,7 @@ class InternetConnectionException extends ExceptionBase {
 }
 
 abstract class UserException extends ExceptionBase {
-  const UserException(String message) : super(message);
+  const UserException(super.message);
 }
 
 class NoUserFoundException extends UserException {

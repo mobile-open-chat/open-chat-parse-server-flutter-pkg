@@ -9,10 +9,11 @@ import '../../../utils/enums.dart';
 class RemoteMessageModel extends ParseObject with EquatableMixin {
   RemoteMessageModel() : super.clone(keyClassName);
 
+  // ignore: avoid_unused_constructor_parameters
   RemoteMessageModel.clone(Map map) : this();
 
   @override
-  clone(Map<String, dynamic> map) =>
+  RemoteMessageModel clone(Map<String, dynamic> map) =>
       RemoteMessageModel.clone(map)..fromJson(map);
 
   static const keyClassName = 'Messages';
@@ -39,8 +40,9 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
 
   ParseFile? get thumbnail => get(keyThumbnail) as ParseFile?;
 
-  String get receivedMessageType => (get(keyMessageType) as String);
+  String get receivedMessageType => get(keyMessageType) as String;
 
+  // ignore: avoid_setters_without_getters
   set messageType(MessageType messageType) =>
       set(keyMessageType, messageType.name);
 
@@ -55,7 +57,8 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
   String get messageDeliveryState => get(keyText) as String;
   set messageDeliveryState(String textMessage) => set(keyText, textMessage);
 
-  Map<String, dynamic> get metaData => jsonDecode(get<String>(keyMetaData)!);
+  Map<String, dynamic> get metaData =>
+      jsonDecode(get<String>(keyMetaData)!) as Map<String, dynamic>;
   set metaData(Map<String, dynamic> metaData) =>
       set(keyMetaData, jsonEncode(metaData));
 

@@ -52,7 +52,7 @@ class SendTextMessageProcessManager
     final isSuccess = await _messagesLocalDataSource.storeMessage(localModel);
     if (!isSuccess) {
       _sendingProcesses.remove(messageModel.localMessageId);
-      return Left(const CacheException('Can\'t store the new text message'));
+      return Left(const CacheException("Can't store the new text message"));
     }
 
     final RemoteMessageModel remoteMessageModelResponse;
@@ -98,7 +98,7 @@ class SendTextMessageProcessManager
 
   @override
   Future<void> disposeAllFinishedProcesses() async {
-    for (var processId in _disposableProcesses) {
+    for (final processId in _disposableProcesses) {
       _sendingProcesses.remove(processId);
     }
     _disposableProcesses.clear();

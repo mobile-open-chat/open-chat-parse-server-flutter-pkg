@@ -12,39 +12,34 @@ class CustomParseUser extends ParseUser
   static const keyEmail = ParseUser.keyEmailAddress;
 
   CustomParseUser(
-    String? username,
-    String? password,
-    String? emailAddress, {
-    ParseClient? client,
-    bool? debug,
-    String? sessionToken,
-  }) : super(
-          username,
-          password,
-          emailAddress,
-          client: client,
-          debug: debug,
-          sessionToken: sessionToken,
-        );
+    super.username,
+    super.password,
+    super.emailAddress, {
+    super.client,
+    super.debug,
+    super.sessionToken,
+  });
 
   CustomParseUser.clone(Map<String, dynamic> map)
       : this(
-          map[keyVarUsername],
-          map[keyVarPassword],
-          map[keyVarEmail],
-          sessionToken: map[keyVarSessionToken],
+          map[keyVarUsername] as String?,
+          map[keyVarPassword] as String?,
+          map[keyVarEmail] as String?,
+          sessionToken: map[keyVarSessionToken] as String?,
         );
 
-  static buildUserPointer(String id) {
+  factory CustomParseUser.buildUserPointer(String id) {
     return (CustomParseUser(null, null, null)..set(keyVarObjectId, id));
   }
 
   @override
-  clone(Map<String, dynamic> map) => CustomParseUser.clone(map)..fromJson(map);
+  CustomParseUser clone(Map<String, dynamic> map) =>
+      CustomParseUser.clone(map)..fromJson(map);
 
-  String get name => get<String>(keyName) as String;
+  String get name => get<String>(keyName) ?? 'Unknown';
   set name(String name) => set<String>(keyName, name);
 
+  // ignore: cast_nullable_to_non_nullable
   String get userId => get<String>(keyVarObjectId) as String;
 
   ParseFile? get profileImage => get<ParseFile?>(keyProfileImage);
@@ -52,8 +47,11 @@ class CustomParseUser extends ParseUser
   set profileImage(ParseFile? profileImage) =>
       set<ParseFile?>(keyProfileImage, profileImage);
 
-  List<String> getListOfBlockedUsers() =>
-      List<String>.of(get(keyBlockedUsers)?.cast<String>() ?? []);
+  List<String> getListOfBlockedUsers() {
+    return List<String>.of(
+      get<List<dynamic>?>(keyBlockedUsers)?.cast<String>() ?? [],
+    );
+  }
 
   @override
   List<Object?> get props => [

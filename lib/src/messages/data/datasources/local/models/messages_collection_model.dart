@@ -48,6 +48,10 @@ class MessagesCollectionModel {
   @Name('textMessage')
   TextMessage? textMessage;
 
+  // For image message
+  @Name('imageMessage')
+  ImageMessage? imageMessage;
+
   @Ignore()
   late final List<Object?> _props = [
     localMessageId,
@@ -84,6 +88,48 @@ class TextMessage {
 
   @Ignore()
   late final List<Object?> _props = [text];
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TextMessage &&
+          runtimeType == other.runtimeType &&
+          const DeepCollectionEquality().equals(_props, other._props);
+
+  @override
+  int get hashCode => runtimeType.hashCode ^ jenkinsMapPropsToHashCode(_props);
+}
+
+@embedded
+class ImageMessage {
+  @Name('imageFilePath')
+  String? imageFilePath;
+  @Name('imageURL')
+  String? imageURL;
+
+  @Name('thumbnailFilePath')
+  String? thumbnailFilePath;
+  @Name('thumbnailURL')
+  String? thumbnailURL;
+
+  @Name('hight')
+  int? hight;
+  @Name('width')
+  int? width;
+
+  @Name('size')
+  int? size;
+
+  @Ignore()
+  late final List<Object?> _props = [
+    thumbnailURL,
+    thumbnailFilePath,
+    imageURL,
+    imageFilePath,
+    hight,
+    width,
+    size,
+  ];
 
   @override
   bool operator ==(Object other) =>

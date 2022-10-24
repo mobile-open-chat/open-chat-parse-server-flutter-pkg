@@ -11,11 +11,13 @@ class Image extends Equatable {
   final String? imageURL;
   final File? imageFile;
 
+  final ImageMetaData imageMetaData;
   const Image({
-    required this.thumbnailURL,
-    required this.thumbnailFile,
-    required this.imageURL,
-    required this.imageFile,
+    required this.imageMetaData,
+    this.thumbnailURL,
+    this.thumbnailFile,
+    this.imageURL,
+    this.imageFile,
   });
 
   Image copyWith({
@@ -23,6 +25,7 @@ class Image extends Equatable {
     Object? thumbnailFile = undefined,
     Object? imageURL = undefined,
     Object? imageFile = undefined,
+    ImageMetaData? imageMetaData,
   }) {
     return Image(
       thumbnailURL: isNotPassedParameter(thumbnailURL)
@@ -37,6 +40,7 @@ class Image extends Equatable {
       imageFile: isNotPassedParameter(imageFile)
           ? this.imageFile
           : (imageFile as File?),
+      imageMetaData: imageMetaData ?? this.imageMetaData,
     );
   }
 
@@ -46,5 +50,37 @@ class Image extends Equatable {
         thumbnailFile,
         imageURL,
         imageFile,
+      ];
+}
+
+class ImageMetaData extends Equatable {
+  final int? hight;
+  final int? width;
+
+  final int? size;
+
+  const ImageMetaData({
+    this.hight,
+    this.width,
+    this.size,
+  });
+
+  ImageMetaData copyWith({
+    Object? hight = undefined,
+    Object? width = undefined,
+    Object? size = undefined,
+  }) {
+    return ImageMetaData(
+      hight: isNotPassedParameter(hight) ? this.hight : (hight as int?),
+      width: isNotPassedParameter(width) ? this.width : (width as int?),
+      size: isNotPassedParameter(size) ? this.size : (size as int?),
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        hight,
+        width,
+        size,
       ];
 }

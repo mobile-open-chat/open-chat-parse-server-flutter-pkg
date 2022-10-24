@@ -30,6 +30,7 @@ dependencies:
   path: ^1.8.2
   permission_handler: ^10.1.0
   collection: ^1.16.0
+  image: ^3.2.2
 
   # For testing
   mocktail: ^0.3.0

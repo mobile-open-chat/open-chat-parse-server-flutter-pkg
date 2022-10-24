@@ -23,3 +23,12 @@ class NoUserFoundException extends UserException {
     return UserFailure(message);
   }
 }
+
+class ErrorWhileSavingTheFile extends UserException {
+  const ErrorWhileSavingTheFile(super.message);
+
+  @override
+  Failure asFailure() {
+    return FileSaveFailure(message);
+  }
+}

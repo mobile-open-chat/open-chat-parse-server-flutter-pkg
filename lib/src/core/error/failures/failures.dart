@@ -28,7 +28,10 @@ class ServerFailure extends Failure {
 
 class CacheFailure extends Failure {
   const CacheFailure([super.message]);
-  
+}
+
+class FileSaveFailure extends CacheFailure {
+  const FileSaveFailure([super.message]);
 }
 
 class UserFailure extends Failure {

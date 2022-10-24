@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart' show protected;
 
 import '../../../core/data/process_manager_base/process_manager_base.dart';
-import '../../../core/error/exceptions/cache_exception.dart';
 import '../../../core/error/exceptions/exception_base.dart';
 import '../../../core/error/exceptions/server_exception.dart';
 import '../../../core/error/exceptions/user_exception.dart';
@@ -51,11 +50,7 @@ class SendTextMessageProcessManager
     final localModel = messageModel.toLocalDBModel();
     final remoteModel = messageModel.toRemoteModel();
 
-    final isSuccess = await _messagesLocalDataSource.storeMessage(localModel);
-    if (!isSuccess) {
-      _sendingProcesses.remove(messageModel.localMessageId);
-      return Left(const CacheException("Can't store the new text message"));
-    }
+    await _messagesLocalDataSource.storeMessage(localModel);
 
     final RemoteMessageModel remoteMessageModelResponse;
     try {

@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:flutter/foundation.dart' show protected;
+
 import '../../../core/data/process_manager_base/process_manager_base.dart';
 import '../../../core/error/exceptions/cache_exception.dart';
 import '../../../core/error/exceptions/exception_base.dart';
@@ -9,6 +11,7 @@ import '../../../core/utils/either.dart';
 import '../../domain/entities/sent_message_base.dart';
 import '../../domain/entities/text_message/sent_text_message.dart';
 import '../datasources/local/messages_local_data_source.dart';
+import '../datasources/local/models/messages_collection_model.dart';
 import '../datasources/remote/messages_remote_data_source.dart';
 import '../datasources/remote/models/remote_message_model.dart';
 import '../models/text_message/sent_text_message_model.dart';
@@ -64,16 +67,13 @@ class SendTextMessageProcessManager
       _pendingPrecesses.addLast(messageModel);
       return Left(exception);
     } on ServerException catch (exception) {
-      localModel.sentMessageProperties!.sentMessageDeliveryState =
-          SentMessageDeliveryState.error;
-
-      await _messagesLocalDataSource.updateMessage(localModel);
+      await _markTheMessageWithErrorDeliveryStateInDB(localModel);
 
       return Left(exception);
     } finally {
       // Remove the current process(message) in case of error,
       // so the next attempt to send the message will start a new process.
-      _sendingProcesses.remove(messageModel.localMessageId);
+      disposeProcess(messageModel.localMessageId);
     }
 
     localModel
@@ -89,6 +89,15 @@ class SendTextMessageProcessManager
     return Right(SentTextMessageModel.fromLocalDBModel(localModel));
   }
 
+  Future<void> _markTheMessageWithErrorDeliveryStateInDB(
+    MessagesCollectionModel localModel,
+  ) async {
+    localModel.sentMessageProperties!.sentMessageDeliveryState =
+        SentMessageDeliveryState.error;
+
+    await _messagesLocalDataSource.updateMessage(localModel);
+  }
+
   void _restartAllPendingProcesses() {
     for (int i = 0; i < _pendingPrecesses.length; i++) {
       startOrAttachToRunningProcess(_pendingPrecesses.removeFirst());
@@ -98,7 +107,7 @@ class SendTextMessageProcessManager
   @override
   Future<void> disposeAllFinishedProcesses() async {
     for (final processId in _disposableProcesses) {
-      _sendingProcesses.remove(processId);
+      disposeProcess(processId);
     }
     _disposableProcesses.clear();
   }
@@ -108,5 +117,11 @@ class SendTextMessageProcessManager
     _sendingProcesses.clear();
     _pendingPrecesses.clear();
     _disposableProcesses.clear();
+  }
+
+  @override
+  @protected
+  Future<void> disposeProcess(int processId) async {
+    _sendingProcesses.remove(processId);
   }
 }

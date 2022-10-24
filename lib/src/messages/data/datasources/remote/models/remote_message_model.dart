@@ -20,7 +20,7 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
 
   static const keyRemoteMessageId = keyVarObjectId;
   static const keyText = 'text';
-  static const keyMedia = 'mediaFile';
+  static const keyFile = 'file';
   static const keyThumbnail = 'thumbnail';
   static const keyMessageType = 'messageType';
   static const keyLocalSentDate = 'localSentDate';
@@ -35,8 +35,8 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
   String? get textMessage => get(keyText) as String?;
   set textMessage(String? textMessage) => set(keyText, textMessage);
 
-  ParseFile? get media => get(keyMedia) as ParseFile?;
-  set media(ParseFile? textMessage) => set(keyMedia, textMessage);
+  ParseFile? get remoteFile => get(keyFile) as ParseFile?;
+  set remoteFile(ParseFile? parseFile) => set(keyFile, parseFile);
 
   ParseFile? get thumbnail => get(keyThumbnail) as ParseFile?;
 
@@ -68,7 +68,7 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
   List<Object?> get props => [
         get(keyRemoteMessageId),
         textMessage,
-        media,
+        remoteFile,
         receivedMessageType,
         sentDate,
         sender,

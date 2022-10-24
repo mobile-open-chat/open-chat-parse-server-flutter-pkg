@@ -46,6 +46,7 @@ class SendTextMessageProcessManager
   Future<ErrorOrMessage> _startSendingProcess(
     SentTextMessage sentTextMessage,
   ) async {
+    final processId = sentTextMessage.localMessageId;
     final messageModel = SentTextMessageModel.fromEntity(sentTextMessage);
     final localModel = messageModel.toLocalDBModel();
     final remoteModel = messageModel.toRemoteModel();
@@ -68,7 +69,7 @@ class SendTextMessageProcessManager
     } finally {
       // Remove the current process(message) in case of error,
       // so the next attempt to send the message will start a new process.
-      disposeProcess(messageModel.localMessageId);
+      disposeProcess(processId);
     }
 
     localModel
@@ -79,7 +80,7 @@ class SendTextMessageProcessManager
 
     await _messagesLocalDataSource.updateMessage(localModel);
 
-    _disposableProcesses.add(messageModel.localMessageId);
+    _disposableProcesses.add(processId);
 
     return Right(SentTextMessageModel.fromLocalDBModel(localModel));
   }

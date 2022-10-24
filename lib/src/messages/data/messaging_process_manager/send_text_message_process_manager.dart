@@ -61,15 +61,13 @@ class SendTextMessageProcessManager
       // Add the process(message) to pending precesses so when the connection
       // returns the process will restart and try to resend the message.
       _pendingPrecesses.addLast(messageModel);
+
+      await disposeProcess(processId);
       return Left(exception);
     } on ServerException catch (exception) {
       await _markTheMessageWithErrorDeliveryStateInDB(localModel);
-
+      await disposeProcess(processId);
       return Left(exception);
-    } finally {
-      // Remove the current process(message) in case of error,
-      // so the next attempt to send the message will start a new process.
-      disposeProcess(processId);
     }
 
     localModel
@@ -103,7 +101,7 @@ class SendTextMessageProcessManager
   @override
   Future<void> disposeAllFinishedProcesses() async {
     for (final processId in _disposableProcesses) {
-      disposeProcess(processId);
+      await disposeProcess(processId);
     }
     _disposableProcesses.clear();
   }

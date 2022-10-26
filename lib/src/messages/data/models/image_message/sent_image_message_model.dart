@@ -109,21 +109,3 @@ class SentImageMessageModel extends SentImageMessage
     );
   }
 }
-
-extension _ImageMetaDataParser on ImageMetaData {
-  Map<String, dynamic> toJson() {
-    return {
-      'hight': hight,
-      'width': width,
-      'size': size,
-    };
-  }
-
-  ImageMetaData fromJson(Map<String, dynamic> jsonMap) {
-    return ImageMetaData(
-      hight: jsonMap['hight'] as int?,
-      width: jsonMap['width'] as int?,
-      size: jsonMap['size'] as int?,
-    );
-  }
-}

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../../../domain/entities/image_message/image.dart';
+import '../../../domain/entities/image_message/image.dart' hide ImageMessage;
 import '../../../domain/entities/image_message/received_image_message.dart';
 import '../../../domain/entities/received_message_base.dart';
 import '../../datasources/local/models/messages_collection_model.dart';

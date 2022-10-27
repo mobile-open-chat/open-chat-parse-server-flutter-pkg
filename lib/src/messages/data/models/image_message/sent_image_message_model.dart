@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart' show ParseFile;
 
-import '../../../domain/entities/image_message/image.dart';
+import '../../../domain/entities/image_message/image.dart'hide ImageMessage;
 import '../../../domain/entities/image_message/sent_image_message.dart';
 import '../../../domain/entities/sent_message_base.dart';
 import '../../datasources/local/models/messages_collection_model.dart';

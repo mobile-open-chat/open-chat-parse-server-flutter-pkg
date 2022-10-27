@@ -2,7 +2,7 @@ import '../../../../core/utils/undefined.dart';
 import '../received_message_base.dart';
 import 'image.dart';
 
-class ReceivedImageMessage extends ReceivedMessageBase {
+class ReceivedImageMessage extends ReceivedMessageBase implements ImageMessage {
   final Image receivedImage;
 
   const ReceivedImageMessage({
@@ -16,6 +16,9 @@ class ReceivedImageMessage extends ReceivedMessageBase {
     required super.isLiveMessage,
     required this.receivedImage,
   });
+  
+  @override
+  Image get image => receivedImage;
 
   ReceivedImageMessage copyWith({
     int? localMessageId,

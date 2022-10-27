@@ -2,7 +2,7 @@ import '../../../../core/utils/undefined.dart';
 import '../sent_message_base.dart';
 import 'image.dart';
 
-class SentImageMessage extends SentMessageBase {
+class SentImageMessage extends SentMessageBase implements ImageMessage {
   final Image sentImage;
 
   const SentImageMessage({
@@ -14,6 +14,9 @@ class SentImageMessage extends SentMessageBase {
     required super.messageDeliveryState,
     required this.sentImage,
   });
+
+  @override
+  Image get image => sentImage;
 
   SentImageMessage copyWith({
     int? localMessageId,

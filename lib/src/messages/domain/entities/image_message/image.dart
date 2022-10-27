@@ -4,6 +4,12 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../core/utils/undefined.dart';
 
+abstract class ImageMessage {
+  final Image image;
+
+  ImageMessage(this.image);
+}
+
 class Image extends Equatable {
   final String? thumbnailURL;
   final File? thumbnailFile;

@@ -5,7 +5,6 @@ import 'package:flutter/painting.dart' as flutter_painting
     show decodeImageFromList;
 
 import '../../../../core/usecases/usecase.dart';
-
 import '../../../utils/chat_typedef.dart';
 import '../../entities/image_message/image.dart';
 import '../../entities/image_message/sent_image_message.dart';
@@ -13,13 +12,14 @@ import '../../entities/sent_message_base.dart';
 import '../../repositories/messages_repository.dart';
 
 class SendImageMessage
-    implements UseCase<SendImageMessageParams, StreamOfProgressOrImageMessage> {
+    implements
+        UseCase<SendImageMessageParams, StreamOfProgressOrSentImageMessage> {
   final MessagesRepository _messagesRepository;
 
   SendImageMessage(this._messagesRepository);
 
   @override
-  StreamOfProgressOrImageMessage call(
+  StreamOfProgressOrSentImageMessage call(
     SendImageMessageParams params,
   ) async* {
     final dateTime = DateTime.now();

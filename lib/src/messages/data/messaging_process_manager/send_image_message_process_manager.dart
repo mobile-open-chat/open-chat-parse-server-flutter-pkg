@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart' show protected;
-
 import 'package:rxdart/subjects.dart';
 
 import '../../../core/data/process_manager_base/process_manager_base.dart';
@@ -24,7 +23,7 @@ typedef BehaviorSubjectOfProgressOrSentImageMessage
     = BehaviorSubject<Either<Progress, SentImageMessageModel>>;
 
 class SendImageMessageProcessManager extends ProcessManagerBase<
-    ValueStreamOfProgressOrImageMessage, SentImageMessage> {
+    ValueStreamOfProgressOrSentImageMessage, SentImageMessage> {
   final MessagesLocalDataSource _messagesLocalDataSource;
   final MessagesRemoteDataSource _messagesRemoteDataSource;
 
@@ -41,7 +40,7 @@ class SendImageMessageProcessManager extends ProcessManagerBase<
   final _pendingPrecesses = ListQueue<SentImageMessageModel>();
 
   @override
-  ValueStreamOfProgressOrImageMessage startOrAttachToRunningProcess(
+  ValueStreamOfProgressOrSentImageMessage startOrAttachToRunningProcess(
     SentImageMessage message,
   ) {
     return _sendingProcesses

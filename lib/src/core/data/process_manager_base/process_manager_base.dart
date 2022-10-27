@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart' show protected;
 
-import '../../../messages/domain/entities/messages_base.dart';
-
-abstract class ProcessManagerBase<R, T extends MessageBase> {
+abstract class ProcessManagerBase<R, T> {
   R startOrAttachToRunningProcess(T message);
 
   Future<void> disposeAllProcesses();

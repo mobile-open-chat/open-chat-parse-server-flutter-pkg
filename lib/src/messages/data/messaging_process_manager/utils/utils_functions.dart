@@ -4,7 +4,6 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 import '../../../../core/error/exceptions/user_exception.dart';
-import '../../datasources/remote/models/remote_message_model.dart';
 
 enum FolderName {
   images,
@@ -29,9 +28,6 @@ Future<bool> canSkipCopingFileToAppDocumentsDirectory(
   }
   return false;
 }
-
-bool canSkipFileUploading(RemoteMessageModel remoteMessageModel) =>
-    remoteMessageModel.remoteFile?.url != null;
 
 Future<File> saveFileToAppDocumentsDirectory(
   File file,

@@ -70,7 +70,7 @@ class DownloadImageMessageProcessManager extends ProcessManagerBase<
   ) async {
     var message = imageMessage;
     final processId = (message as MessageBase).localMessageId;
-    final localModel = _getLocalLocalDBModel(message);
+    final localModel = _getLocalDBModel(message);
 
     if (await _shouldDownloadThumbnail(message)) {
       final imageMessageResult = await _downloadThumbnail(message, localModel);
@@ -125,7 +125,7 @@ class DownloadImageMessageProcessManager extends ProcessManagerBase<
     await downloadBehaviorSubject.close();
   }
 
-  MessagesCollectionModel _getLocalLocalDBModel(
+  MessagesCollectionModel _getLocalDBModel(
     ImageMessage message,
   ) {
     if (message is ReceivedImageMessage) {

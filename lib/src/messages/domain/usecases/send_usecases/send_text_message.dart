@@ -18,7 +18,7 @@ class SendTextMessage
   Future<FailureOrSentTextMessage> call(
     SendTextMessageParams params,
   ) async {
-    final dateTime = DateTime.now();
+    final dateTime = DateTime.now().toUtc();
 
     var message = SentTextMessage(
       localMessageId: -1,

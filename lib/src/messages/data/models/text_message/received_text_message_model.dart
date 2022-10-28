@@ -39,7 +39,7 @@ class ReceivedTextMessageModel extends ReceivedTextMessage
       ),
       isLiveMessage: isLiveMessage,
       localSentDate: remoteModel.sentDate,
-      localReceivedDate: DateTime.now(),
+      localReceivedDate: DateTime.now().toUtc(),
       remoteCreationDate: remoteModel.remoteCreationDate,
       textMessage: remoteModel.textMessage!,
     );

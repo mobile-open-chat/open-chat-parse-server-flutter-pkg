@@ -22,7 +22,7 @@ class SendImageMessage
   StreamOfProgressOrSentImageMessage call(
     SendImageMessageParams params,
   ) async* {
-    final dateTime = DateTime.now();
+    final dateTime = DateTime.now().toUtc();
 
     var message = SentImageMessage(
       localMessageId: -1,

@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 import '../../../../../core/user/data/models/custom_parse_user.dart';
 import '../../../utils/enums.dart';
+import "package:path/path.dart" as path;
 
 class RemoteMessageModel extends ParseObject with EquatableMixin {
   RemoteMessageModel() : super.clone(keyClassName);
@@ -35,10 +37,28 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
   String? get textMessage => get(keyText) as String?;
   set textMessage(String? textMessage) => set(keyText, textMessage);
 
-  ParseFile? get remoteFile => get(keyFile) as ParseFile?;
-  set remoteFile(ParseFile? parseFile) => set(keyFile, parseFile);
+  File? get remoteFile => get<ParseFile?>(keyFile)?.file;
+  set remoteFile(File? file) {
+    final parseFile = get<ParseFile?>(keyFile) ?? ParseFile(file);
+    parseFile.file = file;
+    set(keyFile, parseFile);
+  }
 
-  ParseFile? get thumbnail => get(keyThumbnail) as ParseFile?;
+  String? get remoteFileURL => get<ParseFile?>(keyFile)?.url;
+  set remoteFileURL(String? url) {
+    final parseFile = get<ParseFile?>(keyFile) ??
+        ParseFile(
+          null,
+          name: path.basename(url!),
+        );
+
+    parseFile.url = url;
+
+    set(keyFile, parseFile);
+  }
+
+  File? get thumbnailFile => get<ParseFile?>(keyThumbnail)?.file;
+  String? get thumbnailURL => get<ParseFile?>(keyThumbnail)?.url;
 
   String get receivedMessageType => get(keyMessageType) as String;
 

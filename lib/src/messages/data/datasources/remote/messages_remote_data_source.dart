@@ -10,10 +10,11 @@ import 'models/remote_message_model.dart';
 
 abstract class MessagesRemoteDataSource {
   const MessagesRemoteDataSource();
+
   Future<RemoteMessageModel> sendTextMessage(RemoteMessageModel message);
 
-  Future<void> uploadImageMessage(
-    RemoteMessageModel message,
+  Future<String> uploadFile(
+    File file,
     void Function(int progress, int total) progressCallback,
   );
 
@@ -39,7 +40,7 @@ class MessagesRemoteDataSourceImpl extends MessagesRemoteDataSource {
 
   @override
   Future<RemoteMessageModel> sendImageMessage(RemoteMessageModel message) {
-    assert(message.remoteFile?.file != null && message.remoteFile?.url != null);
+    assert(message.remoteFile != null && message.remoteFileURL != null);
     assert(message.receivedMessageType == MessageType.image.name);
 
     return _sendMessage(
@@ -49,25 +50,27 @@ class MessagesRemoteDataSourceImpl extends MessagesRemoteDataSource {
   }
 
   @override
-  Future<void> uploadImageMessage(
-    RemoteMessageModel message,
+  Future<String> uploadFile(
+    File file,
     void Function(int progress, int total) progressCallback,
   ) async {
-    assert(message.remoteFile?.file != null);
+    final parseFile = ParseFile(file);
 
-    final ParseResponse uploadImageResponse;
+    final ParseResponse uploadFileResponse;
     try {
-      uploadImageResponse = await message.remoteFile!.upload(
+      uploadFileResponse = await parseFile.upload(
         progressCallback: progressCallback,
       );
     } catch (error) {
       throw InternetConnectionException(
-        "Can't upload the image file connection error \nError:$error",
+        "Can't upload the file connection error \nError:$error",
       );
     }
-    if (!uploadImageResponse.success) {
-      throw ParseException.extractParseException(uploadImageResponse.error);
+    if (!uploadFileResponse.success) {
+      throw ParseException.extractParseException(uploadFileResponse.error);
     }
+
+    return parseFile.url!;
   }
 
   Future<RemoteMessageModel> _sendMessage(

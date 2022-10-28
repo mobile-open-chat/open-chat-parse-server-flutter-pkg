@@ -58,10 +58,10 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
   }) {
     final image = Image(
       imageMetaData: const ImageMetaData().fromJson(remoteModel.metaData),
-      imageURL: remoteModel.remoteFile!.url,
-      thumbnailURL: remoteModel.thumbnail!.url,
-      thumbnailFile: remoteModel.thumbnail?.file,
-      imageFile: remoteModel.remoteFile?.file,
+      thumbnailFile: remoteModel.thumbnailFile,
+      imageFile: remoteModel.remoteFile,
+      imageURL: remoteModel.remoteFileURL,
+      thumbnailURL: remoteModel.thumbnailURL,
     );
 
     return ReceivedImageMessageModel(
@@ -75,7 +75,7 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
       remoteCreationDate: remoteModel.remoteCreationDate,
       receivedImage: image,
       isLiveMessage: isLiveMessage,
-      localReceivedDate: DateTime.now(),
+      localReceivedDate: DateTime.now().toUtc(),
     );
   }
 

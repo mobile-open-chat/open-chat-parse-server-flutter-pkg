@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart' show ParseFile;
-
-import '../../../domain/entities/image_message/image.dart'hide ImageMessage;
+import '../../../domain/entities/image_message/image.dart' hide ImageMessage;
 import '../../../domain/entities/image_message/sent_image_message.dart';
 import '../../../domain/entities/sent_message_base.dart';
 import '../../datasources/local/models/messages_collection_model.dart';
@@ -52,7 +50,8 @@ class SentImageMessageModel extends SentImageMessage
   RemoteMessageModel toRemoteModel() {
     return super.toRemoteModel()
       ..messageType = MessageType.image
-      ..remoteFile = ParseFile(sentImage.imageFile, url: sentImage.imageURL)
+      ..remoteFile = sentImage.imageFile
+      ..remoteFileURL = sentImage.imageURL
       ..metaData = sentImage.imageMetaData.toJson();
   }
 
@@ -61,8 +60,10 @@ class SentImageMessageModel extends SentImageMessage
   ) {
     final image = Image(
       imageMetaData: const ImageMetaData().fromJson(remoteModel.metaData),
-      imageURL: remoteModel.remoteFile!.url,
-      thumbnailURL: remoteModel.thumbnail!.url,
+      imageURL: remoteModel.remoteFileURL,
+      thumbnailURL: remoteModel.thumbnailURL,
+      imageFile: remoteModel.remoteFile,
+      thumbnailFile: remoteModel.thumbnailFile,
     );
 
     return SentImageMessageModel(

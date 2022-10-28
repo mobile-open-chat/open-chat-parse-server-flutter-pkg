@@ -101,10 +101,11 @@ class SendImageMessageProcessManager extends ProcessManagerBase<
     }
 
     // start uploading process
-    if (!canSkipFileUploading(remoteModel)) {
+    if (!_canSkipFileUploading(remoteModel)) {
+      final String fileURL;
       try {
-        await _messagesRemoteDataSource.uploadImageMessage(remoteModel,
-            (progress, total) {
+        fileURL = await _messagesRemoteDataSource
+            .uploadFile(remoteModel.remoteFile!, (progress, total) {
           sendingBehaviorSubject.sink.add(Left(Progress(total, progress)));
         });
       } on InternetConnectionException catch (error) {
@@ -116,16 +117,19 @@ class SendImageMessageProcessManager extends ProcessManagerBase<
         _pendingPrecesses.addLast(messageModel);
 
         await disposeProcess(processId);
+        return;
       } on ServerException catch (error) {
         sendingBehaviorSubject.sink.addError(
           error.asFailure(),
         );
         await _markTheMessageWithErrorDeliveryStateInDB(localModel);
         await disposeProcess(processId);
+        return;
       }
 
       // store the image URL
-      localModel.imageMessage!.imageURL = remoteModel.remoteFile!.url;
+      remoteModel.remoteFileURL = fileURL;
+      localModel.imageMessage!.imageURL = fileURL;
       await _messagesLocalDataSource.updateMessage(localModel);
       messageModel = SentImageMessageModel.fromLocalDBModel(localModel);
     }
@@ -157,8 +161,8 @@ class SendImageMessageProcessManager extends ProcessManagerBase<
     localModel
       ..remoteMessageId = remoteMessageModelResponse.remoteMessageId
       ..remoteCreationDate = remoteMessageModelResponse.remoteCreationDate
-      ..imageMessage!.thumbnailURL = remoteMessageModelResponse.thumbnail?.url
-      ..imageMessage!.imageURL = remoteMessageModelResponse.remoteFile?.url
+      ..imageMessage!.thumbnailURL = remoteMessageModelResponse.thumbnailURL
+      ..imageMessage!.imageURL = remoteMessageModelResponse.remoteFileURL
       ..sentMessageProperties!.sentMessageDeliveryState =
           SentMessageDeliveryState.sent;
 
@@ -177,6 +181,8 @@ class SendImageMessageProcessManager extends ProcessManagerBase<
       await appDocumentsDirectory,
     );
   }
+  bool _canSkipFileUploading(RemoteMessageModel remoteMessageModel) =>
+    remoteMessageModel.remoteFileURL != null;
 
   Future<void> _markTheMessageWithErrorDeliveryStateInDB(
     MessagesCollectionModel localModel,

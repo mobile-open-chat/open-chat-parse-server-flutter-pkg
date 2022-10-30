@@ -33,7 +33,7 @@ class ReceivedTextMessageModel extends ReceivedTextMessage
     return ReceivedTextMessageModel(
       localMessageId: remoteModel.sentDate.microsecondsSinceEpoch,
       remoteMessageId: remoteModel.remoteMessageId,
-      userId: remoteModel.sender.userId,
+      userId: remoteModel.senderId,
       messageDeliveryState: ReceivedMessageDeliveryState.values.byName(
         remoteModel.messageDeliveryState,
       ),

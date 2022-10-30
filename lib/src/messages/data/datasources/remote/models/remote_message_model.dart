@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import "package:path/path.dart" as path;
 
 import '../../../../../core/user/data/models/custom_parse_user.dart';
 import '../../../utils/enums.dart';
-import "package:path/path.dart" as path;
 
 class RemoteMessageModel extends ParseObject with EquatableMixin {
   RemoteMessageModel() : super.clone(keyClassName);
@@ -69,10 +69,11 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
   DateTime get sentDate => get(keyLocalSentDate) as DateTime;
   set sentDate(DateTime sentDate) => set(keyLocalSentDate, sentDate);
 
-  CustomParseUser get sender => get(keySender) as CustomParseUser;
+  String get senderId => (get(keySender) as CustomParseUser).userId;
 
-  CustomParseUser get receiver => get(keyReceiver) as CustomParseUser;
-  set receiver(CustomParseUser receiver) => set(keyReceiver, receiver);
+  String get receiverId => (get(keyReceiver) as CustomParseUser).userId;
+  set receiverId(String receiverId) =>
+      set(keyReceiver, CustomParseUser.buildUserPointer(receiverId));
 
   String get messageDeliveryState => get(keyText) as String;
   set messageDeliveryState(String textMessage) => set(keyText, textMessage);
@@ -91,8 +92,8 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
         remoteFile,
         receivedMessageType,
         sentDate,
-        sender,
-        receiver,
+        senderId,
+        receiverId,
         metaData,
       ];
 }

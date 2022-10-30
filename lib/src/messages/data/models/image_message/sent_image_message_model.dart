@@ -69,7 +69,7 @@ class SentImageMessageModel extends SentImageMessage
     return SentImageMessageModel(
       localMessageId: remoteModel.sentDate.microsecondsSinceEpoch,
       remoteMessageId: remoteModel.remoteMessageId,
-      userId: remoteModel.receiver.userId,
+      userId: remoteModel.receiverId,
       messageDeliveryState: SentMessageDeliveryState.values.byName(
         remoteModel.messageDeliveryState,
       ),

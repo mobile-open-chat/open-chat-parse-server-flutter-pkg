@@ -49,7 +49,7 @@ class SentTextMessageModel extends SentTextMessage
     return SentTextMessageModel(
       localMessageId: remoteModel.sentDate.microsecondsSinceEpoch,
       remoteMessageId: remoteModel.remoteMessageId,
-      userId: remoteModel.receiver.userId,
+      userId: remoteModel.receiverId,
       messageDeliveryState: SentMessageDeliveryState.values.byName(
         remoteModel.messageDeliveryState,
       ),

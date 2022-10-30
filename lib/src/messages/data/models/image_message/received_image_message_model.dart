@@ -67,7 +67,7 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
     return ReceivedImageMessageModel(
       localMessageId: remoteModel.sentDate.microsecondsSinceEpoch,
       remoteMessageId: remoteModel.remoteMessageId,
-      userId: remoteModel.receiver.userId,
+      userId: remoteModel.senderId,
       messageDeliveryState: ReceivedMessageDeliveryState.values.byName(
         remoteModel.messageDeliveryState,
       ),

@@ -45,7 +45,7 @@ mixin SentMessageModelConverterMixin on SentMessageBase {
   RemoteMessageModel toRemoteModel() {
     return RemoteMessageModel()
       ..sentDate = localSentDate
-      ..receiver = CustomParseUser.buildUserPointer(userId)
+      ..receiverId = userId
       ..messageDeliveryState = SentMessageDeliveryState.sent.name;
   }
 }

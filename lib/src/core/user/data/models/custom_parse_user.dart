@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:path/path.dart' as path;
 
 class CustomParseUser extends ParseUser
     with EquatableMixin
@@ -39,16 +42,30 @@ class CustomParseUser extends ParseUser
   String get name => get<String>(keyName) ?? 'Unknown';
   set name(String name) => set<String>(keyName, name);
 
-  // ignore: cast_nullable_to_non_nullable
-  String get userId => get<String>(keyVarObjectId) as String;
+  String get userId => get(keyVarObjectId) as String;
 
-  ParseFile? get profileImage => get<ParseFile?>(keyProfileImage);
+  File? get profileImageFile => get<ParseFile?>(keyProfileImage)?.file;
+  set profileImageFile(File? file) {
+    final parseFile = get<ParseFile?>(keyProfileImage) ?? ParseFile(file);
+    parseFile.file = file;
+    set(keyProfileImage, parseFile);
+  }
 
-  set profileImage(ParseFile? profileImage) =>
-      set<ParseFile?>(keyProfileImage, profileImage);
+  String? get profileImageURL => get<ParseFile?>(keyProfileImage)?.url;
+  set profileImageURL(String? url) {
+    final parseFile = get<ParseFile?>(keyProfileImage) ??
+        ParseFile(
+          null,
+          name: path.basename(url!),
+        );
 
-  List<String> getListOfBlockedUsers() {
-    return List<String>.of(
+    parseFile.url = url;
+
+    set(keyProfileImage, parseFile);
+  }
+
+  Set<String> getListOfBlockedUsers() {
+    return Set<String>.of(
       get<List<dynamic>?>(keyBlockedUsers)?.cast<String>() ?? [],
     );
   }

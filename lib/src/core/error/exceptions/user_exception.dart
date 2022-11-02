@@ -15,12 +15,12 @@ abstract class UserException extends ExceptionBase {
   const UserException(super.message);
 }
 
-class NoUserFoundException extends UserException {
-  const NoUserFoundException(super.message);
+class NoUserLoggedException extends UserException {
+  const NoUserLoggedException(super.message);
 
   @override
   Failure asFailure() {
-    return UserFailure(message);
+    return NoUserLoggedFailure(message);
   }
 }
 

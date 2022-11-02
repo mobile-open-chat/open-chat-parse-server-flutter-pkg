@@ -37,3 +37,7 @@ class FileSaveFailure extends CacheFailure {
 class UserFailure extends Failure {
   const UserFailure([super.message]);
 }
+
+class NoUserLoggedFailure extends UserFailure {
+  const NoUserLoggedFailure([super.message]);
+}

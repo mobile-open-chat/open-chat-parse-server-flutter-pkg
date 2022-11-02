@@ -18,10 +18,17 @@ class MessagesCollectionModel {
   String? remoteMessageId;
 
   @Name('userId')
-  @Index(type: IndexType.hash)
+  @Index(
+    type: IndexType.hash,
+    composite: [
+      CompositeIndex(
+        'receivedMessageDeliveryStateForLocalDB',
+        type: IndexType.value,
+      )
+    ],
+  )
   late String userId;
 
-  @Name('localSentDate')
   late DateTime localSentDate;
 
   @Name('remoteCreationDate')
@@ -39,8 +46,6 @@ class MessagesCollectionModel {
   ReceivedMessageProperties? receivedMessageProperties;
 
   @Enumerated(EnumType.ordinal)
-  @Name('receivedMessageDeliveryState')
-  @Index(type: IndexType.value)
   late ReceivedMessageDeliveryStateForLocalDB
       receivedMessageDeliveryStateForLocalDB;
 

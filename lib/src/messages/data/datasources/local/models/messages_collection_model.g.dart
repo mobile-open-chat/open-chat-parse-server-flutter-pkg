@@ -38,9 +38,9 @@ const MessagesCollectionModelSchema = CollectionSchema(
       name: r'messageType',
       type: IsarType.string,
     ),
-    r'receivedMessageDeliveryState': PropertySchema(
+    r'receivedMessageDeliveryStateForLocalDB': PropertySchema(
       id: 4,
-      name: r'receivedMessageDeliveryState',
+      name: r'receivedMessageDeliveryStateForLocalDB',
       type: IsarType.byte,
       enumMap:
           _MessagesCollectionModelreceivedMessageDeliveryStateForLocalDBEnumValueMap,
@@ -98,9 +98,9 @@ const MessagesCollectionModelSchema = CollectionSchema(
         )
       ],
     ),
-    r'userId': IndexSchema(
-      id: -2005826577402374815,
-      name: r'userId',
+    r'userId_receivedMessageDeliveryStateForLocalDB': IndexSchema(
+      id: -8496992621330832578,
+      name: r'userId_receivedMessageDeliveryStateForLocalDB',
       unique: false,
       replace: false,
       properties: [
@@ -108,17 +108,22 @@ const MessagesCollectionModelSchema = CollectionSchema(
           name: r'userId',
           type: IndexType.hash,
           caseSensitive: true,
+        ),
+        IndexPropertySchema(
+          name: r'receivedMessageDeliveryStateForLocalDB',
+          type: IndexType.value,
+          caseSensitive: false,
         )
       ],
     ),
-    r'receivedMessageDeliveryState': IndexSchema(
-      id: -1701020371036156273,
-      name: r'receivedMessageDeliveryState',
+    r'receivedMessageDeliveryStateForLocalDB': IndexSchema(
+      id: 6430958839766242357,
+      name: r'receivedMessageDeliveryStateForLocalDB',
       unique: false,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'receivedMessageDeliveryState',
+          name: r'receivedMessageDeliveryStateForLocalDB',
           type: IndexType.value,
           caseSensitive: false,
         )
@@ -423,7 +428,8 @@ extension MessagesCollectionModelQueryWhereSort
       anyReceivedMessageDeliveryStateForLocalDB() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'receivedMessageDeliveryState'),
+        const IndexWhereClause.any(
+            indexName: r'receivedMessageDeliveryStateForLocalDB'),
       );
     });
   }
@@ -573,28 +579,30 @@ extension MessagesCollectionModelQueryWhere on QueryBuilder<
   }
 
   QueryBuilder<MessagesCollectionModel, MessagesCollectionModel,
-      QAfterWhereClause> userIdEqualTo(String userId) {
+          QAfterWhereClause>
+      userIdEqualToAnyReceivedMessageDeliveryStateForLocalDB(String userId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'userId',
+        indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
         value: [userId],
       ));
     });
   }
 
   QueryBuilder<MessagesCollectionModel, MessagesCollectionModel,
-      QAfterWhereClause> userIdNotEqualTo(String userId) {
+          QAfterWhereClause>
+      userIdNotEqualToAnyReceivedMessageDeliveryStateForLocalDB(String userId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'userId',
+              indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
               lower: [],
               upper: [userId],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'userId',
+              indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
               lower: [userId],
               includeLower: false,
               upper: [],
@@ -602,13 +610,13 @@ extension MessagesCollectionModelQueryWhere on QueryBuilder<
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'userId',
+              indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
               lower: [userId],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'userId',
+              indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
               lower: [],
               upper: [userId],
               includeUpper: false,
@@ -619,12 +627,123 @@ extension MessagesCollectionModelQueryWhere on QueryBuilder<
 
   QueryBuilder<MessagesCollectionModel, MessagesCollectionModel,
           QAfterWhereClause>
+      userIdReceivedMessageDeliveryStateForLocalDBEqualTo(
+          String userId,
+          ReceivedMessageDeliveryStateForLocalDB
+              receivedMessageDeliveryStateForLocalDB) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
+        value: [userId, receivedMessageDeliveryStateForLocalDB],
+      ));
+    });
+  }
+
+  QueryBuilder<MessagesCollectionModel, MessagesCollectionModel,
+          QAfterWhereClause>
+      userIdEqualToReceivedMessageDeliveryStateForLocalDBNotEqualTo(
+          String userId,
+          ReceivedMessageDeliveryStateForLocalDB
+              receivedMessageDeliveryStateForLocalDB) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
+              lower: [userId],
+              upper: [userId, receivedMessageDeliveryStateForLocalDB],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
+              lower: [userId, receivedMessageDeliveryStateForLocalDB],
+              includeLower: false,
+              upper: [userId],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
+              lower: [userId, receivedMessageDeliveryStateForLocalDB],
+              includeLower: false,
+              upper: [userId],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
+              lower: [userId],
+              upper: [userId, receivedMessageDeliveryStateForLocalDB],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<MessagesCollectionModel, MessagesCollectionModel,
+          QAfterWhereClause>
+      userIdEqualToReceivedMessageDeliveryStateForLocalDBGreaterThan(
+    String userId,
+    ReceivedMessageDeliveryStateForLocalDB
+        receivedMessageDeliveryStateForLocalDB, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
+        lower: [userId, receivedMessageDeliveryStateForLocalDB],
+        includeLower: include,
+        upper: [userId],
+      ));
+    });
+  }
+
+  QueryBuilder<MessagesCollectionModel, MessagesCollectionModel,
+          QAfterWhereClause>
+      userIdEqualToReceivedMessageDeliveryStateForLocalDBLessThan(
+    String userId,
+    ReceivedMessageDeliveryStateForLocalDB
+        receivedMessageDeliveryStateForLocalDB, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
+        lower: [userId],
+        upper: [userId, receivedMessageDeliveryStateForLocalDB],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<MessagesCollectionModel, MessagesCollectionModel,
+          QAfterWhereClause>
+      userIdEqualToReceivedMessageDeliveryStateForLocalDBBetween(
+    String userId,
+    ReceivedMessageDeliveryStateForLocalDB
+        lowerReceivedMessageDeliveryStateForLocalDB,
+    ReceivedMessageDeliveryStateForLocalDB
+        upperReceivedMessageDeliveryStateForLocalDB, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'userId_receivedMessageDeliveryStateForLocalDB',
+        lower: [userId, lowerReceivedMessageDeliveryStateForLocalDB],
+        includeLower: includeLower,
+        upper: [userId, upperReceivedMessageDeliveryStateForLocalDB],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MessagesCollectionModel, MessagesCollectionModel,
+          QAfterWhereClause>
       receivedMessageDeliveryStateForLocalDBEqualTo(
           ReceivedMessageDeliveryStateForLocalDB
               receivedMessageDeliveryStateForLocalDB) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'receivedMessageDeliveryState',
+        indexName: r'receivedMessageDeliveryStateForLocalDB',
         value: [receivedMessageDeliveryStateForLocalDB],
       ));
     });
@@ -639,13 +758,13 @@ extension MessagesCollectionModelQueryWhere on QueryBuilder<
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'receivedMessageDeliveryState',
+              indexName: r'receivedMessageDeliveryStateForLocalDB',
               lower: [],
               upper: [receivedMessageDeliveryStateForLocalDB],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'receivedMessageDeliveryState',
+              indexName: r'receivedMessageDeliveryStateForLocalDB',
               lower: [receivedMessageDeliveryStateForLocalDB],
               includeLower: false,
               upper: [],
@@ -653,13 +772,13 @@ extension MessagesCollectionModelQueryWhere on QueryBuilder<
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'receivedMessageDeliveryState',
+              indexName: r'receivedMessageDeliveryStateForLocalDB',
               lower: [receivedMessageDeliveryStateForLocalDB],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'receivedMessageDeliveryState',
+              indexName: r'receivedMessageDeliveryStateForLocalDB',
               lower: [],
               upper: [receivedMessageDeliveryStateForLocalDB],
               includeUpper: false,
@@ -676,7 +795,7 @@ extension MessagesCollectionModelQueryWhere on QueryBuilder<
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'receivedMessageDeliveryState',
+        indexName: r'receivedMessageDeliveryStateForLocalDB',
         lower: [receivedMessageDeliveryStateForLocalDB],
         includeLower: include,
         upper: [],
@@ -692,7 +811,7 @@ extension MessagesCollectionModelQueryWhere on QueryBuilder<
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'receivedMessageDeliveryState',
+        indexName: r'receivedMessageDeliveryStateForLocalDB',
         lower: [],
         upper: [receivedMessageDeliveryStateForLocalDB],
         includeUpper: include,
@@ -711,7 +830,7 @@ extension MessagesCollectionModelQueryWhere on QueryBuilder<
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'receivedMessageDeliveryState',
+        indexName: r'receivedMessageDeliveryStateForLocalDB',
         lower: [lowerReceivedMessageDeliveryStateForLocalDB],
         includeLower: includeLower,
         upper: [upperReceivedMessageDeliveryStateForLocalDB],
@@ -1053,7 +1172,7 @@ extension MessagesCollectionModelQueryFilter on QueryBuilder<
           ReceivedMessageDeliveryStateForLocalDB value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'receivedMessageDeliveryState',
+        property: r'receivedMessageDeliveryStateForLocalDB',
         value: value,
       ));
     });
@@ -1067,7 +1186,7 @@ extension MessagesCollectionModelQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'receivedMessageDeliveryState',
+        property: r'receivedMessageDeliveryStateForLocalDB',
         value: value,
       ));
     });
@@ -1081,7 +1200,7 @@ extension MessagesCollectionModelQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'receivedMessageDeliveryState',
+        property: r'receivedMessageDeliveryStateForLocalDB',
         value: value,
       ));
     });
@@ -1096,7 +1215,7 @@ extension MessagesCollectionModelQueryFilter on QueryBuilder<
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'receivedMessageDeliveryState',
+        property: r'receivedMessageDeliveryStateForLocalDB',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1611,14 +1730,16 @@ extension MessagesCollectionModelQuerySortBy
   QueryBuilder<MessagesCollectionModel, MessagesCollectionModel, QAfterSortBy>
       sortByReceivedMessageDeliveryStateForLocalDB() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'receivedMessageDeliveryState', Sort.asc);
+      return query.addSortBy(
+          r'receivedMessageDeliveryStateForLocalDB', Sort.asc);
     });
   }
 
   QueryBuilder<MessagesCollectionModel, MessagesCollectionModel, QAfterSortBy>
       sortByReceivedMessageDeliveryStateForLocalDBDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'receivedMessageDeliveryState', Sort.desc);
+      return query.addSortBy(
+          r'receivedMessageDeliveryStateForLocalDB', Sort.desc);
     });
   }
 
@@ -1726,14 +1847,16 @@ extension MessagesCollectionModelQuerySortThenBy on QueryBuilder<
   QueryBuilder<MessagesCollectionModel, MessagesCollectionModel, QAfterSortBy>
       thenByReceivedMessageDeliveryStateForLocalDB() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'receivedMessageDeliveryState', Sort.asc);
+      return query.addSortBy(
+          r'receivedMessageDeliveryStateForLocalDB', Sort.asc);
     });
   }
 
   QueryBuilder<MessagesCollectionModel, MessagesCollectionModel, QAfterSortBy>
       thenByReceivedMessageDeliveryStateForLocalDBDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'receivedMessageDeliveryState', Sort.desc);
+      return query.addSortBy(
+          r'receivedMessageDeliveryStateForLocalDB', Sort.desc);
     });
   }
 
@@ -1806,7 +1929,7 @@ extension MessagesCollectionModelQueryWhereDistinct on QueryBuilder<
   QueryBuilder<MessagesCollectionModel, MessagesCollectionModel, QDistinct>
       distinctByReceivedMessageDeliveryStateForLocalDB() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'receivedMessageDeliveryState');
+      return query.addDistinctBy(r'receivedMessageDeliveryStateForLocalDB');
     });
   }
 
@@ -1873,7 +1996,7 @@ extension MessagesCollectionModelQueryProperty on QueryBuilder<
   QueryBuilder<MessagesCollectionModel, ReceivedMessageDeliveryStateForLocalDB,
       QQueryOperations> receivedMessageDeliveryStateForLocalDBProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'receivedMessageDeliveryState');
+      return query.addPropertyName(r'receivedMessageDeliveryStateForLocalDB');
     });
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../core/user/data/models/custom_parse_user.dart';
 import '../../domain/entities/image_message/image.dart';
 import '../../domain/entities/messages_base.dart';
 import '../../domain/entities/received_message_base.dart';
@@ -14,7 +13,7 @@ extension _BuildLocalMessageFoundation on MessagesCollectionModel {
     return this
       ..localMessageId = messageBase.localMessageId
       ..remoteMessageId = messageBase.remoteMessageId
-      ..userId = messageBase.userId
+      ..userId = messageBase.user.userId
       ..localSentDate = messageBase.localSentDate
       ..remoteCreationDate = messageBase.remoteCreationDate;
   }
@@ -45,7 +44,7 @@ mixin SentMessageModelConverterMixin on SentMessageBase {
   RemoteMessageModel toRemoteModel() {
     return RemoteMessageModel()
       ..sentDate = localSentDate
-      ..receiverId = userId
+      ..receiver = user
       ..messageDeliveryState = SentMessageDeliveryState.sent.name;
   }
 }

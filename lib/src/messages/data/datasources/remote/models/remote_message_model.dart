@@ -6,6 +6,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import "package:path/path.dart" as path;
 
 import '../../../../../core/user/data/models/custom_parse_user.dart';
+import '../../../../../core/user/domain/entities/user.dart';
 import '../../../utils/enums.dart';
 
 class RemoteMessageModel extends ParseObject with EquatableMixin {
@@ -69,14 +70,16 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
   DateTime get sentDate => get(keyLocalSentDate) as DateTime;
   set sentDate(DateTime sentDate) => set(keyLocalSentDate, sentDate);
 
-  String get senderId => (get(keySender) as CustomParseUser).userId;
+  User get sender => (get(keySender) as CustomParseUser).toUserEntityObject();
 
-  String get receiverId => (get(keyReceiver) as CustomParseUser).userId;
-  set receiverId(String receiverId) =>
-      set(keyReceiver, CustomParseUser.buildUserPointer(receiverId));
+  User get receiver =>
+      (get(keyReceiver) as CustomParseUser).toUserEntityObject();
+  set receiver(User receiver) =>
+      set(keyReceiver, CustomParseUser.buildUserPointer(receiver.userId));
 
-  String get messageDeliveryState => get(keyText) as String;
-  set messageDeliveryState(String textMessage) => set(keyText, textMessage);
+  String get messageDeliveryState => get(keyMessageDeliveryState) as String;
+  set messageDeliveryState(String deliveryState) =>
+      set(keyMessageDeliveryState, deliveryState);
 
   Map<String, dynamic> get metaData =>
       jsonDecode(get<String>(keyMetaData)!) as Map<String, dynamic>;
@@ -88,12 +91,25 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
   @override
   List<Object?> get props => [
         get(keyRemoteMessageId),
-        textMessage,
-        remoteFile,
-        receivedMessageType,
-        sentDate,
-        senderId,
-        receiverId,
-        metaData,
+        get(keyText),
+        get<ParseFile?>(keyFile)?.url,
+        get<ParseFile?>(keyFile)?.file?.path,
+        get(keyMessageType),
+        get(keyLocalSentDate),
+        get(keySender),
+        get(keyReceiver),
+        get(keyMetaData),
+        get(keyRemoteCreationDate)
       ];
+}
+
+extension _ToCurrentUser on CustomParseUser {
+  User toUserEntityObject() {
+    return User(
+      userId: userId,
+      name: name,
+      profileImageFile: profileImageFile,
+      profileImageURL: profileImageURL,
+    );
+  }
 }

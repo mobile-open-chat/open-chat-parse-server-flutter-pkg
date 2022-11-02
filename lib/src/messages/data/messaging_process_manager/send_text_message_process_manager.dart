@@ -80,7 +80,12 @@ class SendTextMessageProcessManager
 
     _disposableProcesses.add(processId);
 
-    return Right(SentTextMessageModel.fromLocalDBModel(localModel));
+    return Right(
+      SentTextMessageModel.fromLocalDBModel(
+        localModel,
+        messageModel.user,
+      ),
+    );
   }
 
   Future<void> _markTheMessageWithErrorDeliveryStateInDB(

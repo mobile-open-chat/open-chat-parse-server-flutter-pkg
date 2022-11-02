@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/usecases/usecase.dart';
+import '../../../../core/user/domain/entities/user.dart';
 import '../../../../core/utils/either.dart';
 import '../../../utils/chat_typedef.dart';
 import '../../entities/sent_message_base.dart';
@@ -23,7 +24,7 @@ class SendTextMessage
     var message = SentTextMessage(
       localMessageId: -1,
       localSentDate: dateTime,
-      userId: params.receiverId,
+      user: params.receiver,
       messageDeliveryState: SentMessageDeliveryState.pending,
       textMessage: params.textMessage,
       remoteMessageId: null,
@@ -49,19 +50,19 @@ class SendTextMessage
 
 class SendTextMessageParams extends Equatable {
   final String textMessage;
-  final String receiverId;
+  final User receiver;
   final int? localMessageId;
 
   const SendTextMessageParams({
     required this.textMessage,
-    required this.receiverId,
+    required this.receiver,
     required this.localMessageId,
   });
 
   @override
   List<Object?> get props => [
         textMessage,
-        receiverId,
+        receiver,
         localMessageId,
       ];
 }

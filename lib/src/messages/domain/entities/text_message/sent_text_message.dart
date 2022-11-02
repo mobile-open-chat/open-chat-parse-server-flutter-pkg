@@ -1,3 +1,4 @@
+import '../../../../core/user/domain/entities/user.dart';
 import '../../../../core/utils/undefined.dart';
 import '../sent_message_base.dart';
 
@@ -7,7 +8,7 @@ class SentTextMessage extends SentMessageBase {
   const SentTextMessage({
     required super.localMessageId,
     required super.remoteMessageId,
-    required super.userId,
+    required super.user,
     required super.localSentDate,
     required super.remoteCreationDate,
     required super.messageDeliveryState,
@@ -17,7 +18,7 @@ class SentTextMessage extends SentMessageBase {
   SentTextMessage copyWith({
     int? localMessageId,
     Object? remoteMessageId = undefined,
-    String? userId,
+    User? user,
     DateTime? localSentDate,
     Object? remoteCreationDate = undefined,
     SentMessageDeliveryState? messageDeliveryState,
@@ -28,7 +29,7 @@ class SentTextMessage extends SentMessageBase {
       remoteMessageId: isNotPassedParameter(remoteMessageId)
           ? this.remoteMessageId
           : (remoteMessageId as String?),
-      userId: userId ?? this.userId,
+      user: user ?? this.user,
       localSentDate: localSentDate ?? this.localSentDate,
       remoteCreationDate: isNotPassedParameter(remoteCreationDate)
           ? this.remoteCreationDate
@@ -42,7 +43,7 @@ class SentTextMessage extends SentMessageBase {
   List<Object?> get props => [
         localMessageId,
         remoteMessageId,
-        userId,
+        user,
         localSentDate,
         remoteCreationDate,
         messageDeliveryState,

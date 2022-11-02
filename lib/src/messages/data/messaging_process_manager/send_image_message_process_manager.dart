@@ -97,7 +97,10 @@ class SendImageMessageProcessManager extends ProcessManagerBase<
       // save the new image path to DB
       localModel.imageMessage!.imageFilePath = savedImageFile.path;
       await _messagesLocalDataSource.updateMessage(localModel);
-      messageModel = SentImageMessageModel.fromLocalDBModel(localModel);
+      messageModel = SentImageMessageModel.fromLocalDBModel(
+        localModel,
+        messageModel.user,
+      );
     }
 
     // start uploading process
@@ -131,7 +134,10 @@ class SendImageMessageProcessManager extends ProcessManagerBase<
       remoteModel.remoteFileURL = fileURL;
       localModel.imageMessage!.imageURL = fileURL;
       await _messagesLocalDataSource.updateMessage(localModel);
-      messageModel = SentImageMessageModel.fromLocalDBModel(localModel);
+      messageModel = SentImageMessageModel.fromLocalDBModel(
+        localModel,
+        messageModel.user,
+      );
     }
 
     // start sending process
@@ -171,7 +177,12 @@ class SendImageMessageProcessManager extends ProcessManagerBase<
     _disposableProcesses.add(processId);
 
     sendingBehaviorSubject.sink.add(
-      Right(SentImageMessageModel.fromLocalDBModel(localModel)),
+      Right(
+        SentImageMessageModel.fromLocalDBModel(
+          localModel,
+          messageModel.user,
+        ),
+      ),
     );
 
     await sendingBehaviorSubject.close();
@@ -181,8 +192,9 @@ class SendImageMessageProcessManager extends ProcessManagerBase<
       await appDocumentsDirectory,
     );
   }
+
   bool _canSkipFileUploading(RemoteMessageModel remoteMessageModel) =>
-    remoteMessageModel.remoteFileURL != null;
+      remoteMessageModel.remoteFileURL != null;
 
   Future<void> _markTheMessageWithErrorDeliveryStateInDB(
     MessagesCollectionModel localModel,

@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../core/data/process_manager_base/process_manager_base.dart';
 import '../../../core/error/exceptions/user_exception.dart';
+import '../../../core/user/domain/entities/user.dart';
 import '../../../core/utils/either.dart';
 import '../../domain/entities/image_message/image.dart';
 import '../../domain/entities/image_message/received_image_message.dart';
@@ -114,7 +115,10 @@ class DownloadImageMessageProcessManager extends ProcessManagerBase<
     }
 
     localModel.imageMessage!.imageFilePath = downloadedImageFile.path;
-    message = await _updateMessageInLocalDB(localModel);
+    message = await _updateMessageInLocalDB(
+      localModel,
+      (message as MessageBase).user,
+    );
 
     downloadBehaviorSubject.sink.add(
       Right(message),
@@ -141,13 +145,17 @@ class DownloadImageMessageProcessManager extends ProcessManagerBase<
 
   Future<ImageMessage> _updateMessageInLocalDB(
     MessagesCollectionModel localMessageModel,
+    User user,
   ) async {
     await _messagesLocalDataSource.updateMessage(localMessageModel);
 
     if (localMessageModel.isReceivedMessage()) {
-      return ReceivedImageMessageModel.fromLocalDBModel(localMessageModel);
+      return ReceivedImageMessageModel.fromLocalDBModel(
+        localMessageModel,
+        user,
+      );
     } else {
-      return SentImageMessageModel.fromLocalDBModel(localMessageModel);
+      return SentImageMessageModel.fromLocalDBModel(localMessageModel, user);
     }
   }
 
@@ -181,7 +189,7 @@ class DownloadImageMessageProcessManager extends ProcessManagerBase<
     }
 
     localModel.imageMessage!.thumbnailFilePath = thumbnailImageFile.path;
-    return _updateMessageInLocalDB(localModel);
+    return _updateMessageInLocalDB(localModel, (message as MessageBase).user);
   }
 
   @override

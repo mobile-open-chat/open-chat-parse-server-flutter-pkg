@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import '../../../../core/user/domain/entities/user.dart';
 import '../../../domain/entities/image_message/image.dart' hide ImageMessage;
 import '../../../domain/entities/image_message/sent_image_message.dart';
 import '../../../domain/entities/sent_message_base.dart';
@@ -13,7 +14,7 @@ class SentImageMessageModel extends SentImageMessage
   const SentImageMessageModel({
     required super.localMessageId,
     required super.remoteMessageId,
-    required super.userId,
+    required super.user,
     required super.localSentDate,
     required super.remoteCreationDate,
     required super.messageDeliveryState,
@@ -26,7 +27,7 @@ class SentImageMessageModel extends SentImageMessage
       localSentDate: entityObject.localSentDate,
       messageDeliveryState: entityObject.messageDeliveryState,
       remoteCreationDate: entityObject.remoteCreationDate,
-      userId: entityObject.userId,
+      user: entityObject.user,
       remoteMessageId: entityObject.remoteMessageId,
       sentImage: entityObject.sentImage,
     );
@@ -69,7 +70,7 @@ class SentImageMessageModel extends SentImageMessage
     return SentImageMessageModel(
       localMessageId: remoteModel.sentDate.microsecondsSinceEpoch,
       remoteMessageId: remoteModel.remoteMessageId,
-      userId: remoteModel.receiverId,
+      user: remoteModel.receiver,
       messageDeliveryState: SentMessageDeliveryState.values.byName(
         remoteModel.messageDeliveryState,
       ),
@@ -81,6 +82,7 @@ class SentImageMessageModel extends SentImageMessage
 
   factory SentImageMessageModel.fromLocalDBModel(
     MessagesCollectionModel localModel,
+    User user,
   ) {
     final localImgMsg = localModel.imageMessage;
     final imagePath = localImgMsg?.imageFilePath;
@@ -101,7 +103,7 @@ class SentImageMessageModel extends SentImageMessage
     return SentImageMessageModel(
       localMessageId: localModel.localMessageId,
       remoteMessageId: localModel.remoteMessageId,
-      userId: localModel.userId,
+      user: user,
       remoteCreationDate: localModel.remoteCreationDate,
       messageDeliveryState:
           localModel.sentMessageProperties!.sentMessageDeliveryState,

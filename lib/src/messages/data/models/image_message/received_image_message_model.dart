@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import '../../../../core/user/domain/entities/user.dart';
 import '../../../domain/entities/image_message/image.dart' hide ImageMessage;
 import '../../../domain/entities/image_message/received_image_message.dart';
 import '../../../domain/entities/received_message_base.dart';
@@ -13,7 +14,7 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
   const ReceivedImageMessageModel({
     required super.localMessageId,
     required super.remoteMessageId,
-    required super.userId,
+    required super.user,
     required super.localSentDate,
     required super.localReceivedDate,
     required super.remoteCreationDate,
@@ -30,7 +31,7 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
       localSentDate: entityObject.localSentDate,
       messageDeliveryState: entityObject.messageDeliveryState,
       remoteCreationDate: entityObject.remoteCreationDate,
-      userId: entityObject.userId,
+      user: entityObject.user,
       remoteMessageId: entityObject.remoteMessageId,
       isLiveMessage: entityObject.isLiveMessage,
       localReceivedDate: entityObject.localReceivedDate,
@@ -67,7 +68,7 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
     return ReceivedImageMessageModel(
       localMessageId: remoteModel.sentDate.microsecondsSinceEpoch,
       remoteMessageId: remoteModel.remoteMessageId,
-      userId: remoteModel.senderId,
+      user: remoteModel.sender,
       messageDeliveryState: ReceivedMessageDeliveryState.values.byName(
         remoteModel.messageDeliveryState,
       ),
@@ -81,6 +82,7 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
 
   factory ReceivedImageMessageModel.fromLocalDBModel(
     MessagesCollectionModel localModel,
+    User user,
   ) {
     final localImgMsg = localModel.imageMessage;
     final imagePath = localImgMsg?.imageFilePath;
@@ -101,7 +103,7 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
     return ReceivedImageMessageModel(
       localMessageId: localModel.localMessageId,
       remoteMessageId: localModel.remoteMessageId,
-      userId: localModel.userId,
+      user: user,
       remoteCreationDate: localModel.remoteCreationDate,
       messageDeliveryState: ReceivedMessageDeliveryState.values
           .byName(localModel.receivedMessageDeliveryStateForLocalDB.name),

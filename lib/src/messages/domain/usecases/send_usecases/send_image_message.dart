@@ -5,6 +5,7 @@ import 'package:flutter/painting.dart' as flutter_painting
     show decodeImageFromList;
 
 import '../../../../core/usecases/usecase.dart';
+import '../../../../core/user/domain/entities/user.dart';
 import '../../../utils/chat_typedef.dart';
 import '../../entities/image_message/image.dart';
 import '../../entities/image_message/sent_image_message.dart';
@@ -27,7 +28,7 @@ class SendImageMessage
     var message = SentImageMessage(
       localMessageId: -1,
       localSentDate: dateTime,
-      userId: params.receiverId,
+      user: params.receiver,
       messageDeliveryState: SentMessageDeliveryState.pending,
       sentImage: params.image,
       remoteMessageId: null,
@@ -58,19 +59,19 @@ class SendImageMessage
 
 class SendImageMessageParams extends Equatable {
   final Image image;
-  final String receiverId;
+  final User receiver;
   final int? localMessageId;
 
   SendImageMessageParams({
     required this.image,
-    required this.receiverId,
+    required this.receiver,
     required this.localMessageId,
   }) : assert(image.imageFile != null);
 
   @override
   List<Object?> get props => [
         image,
-        receiverId,
+        receiver,
         localMessageId,
       ];
 }

@@ -1,3 +1,4 @@
+import '../../../../core/user/domain/entities/user.dart';
 import '../../../domain/entities/sent_message_base.dart';
 import '../../../domain/entities/text_message/sent_text_message.dart';
 import '../../datasources/local/models/messages_collection_model.dart';
@@ -10,7 +11,7 @@ class SentTextMessageModel extends SentTextMessage
   const SentTextMessageModel({
     required super.localMessageId,
     required super.remoteMessageId,
-    required super.userId,
+    required super.user,
     required super.localSentDate,
     required super.remoteCreationDate,
     required super.messageDeliveryState,
@@ -23,7 +24,7 @@ class SentTextMessageModel extends SentTextMessage
       localSentDate: entityObject.localSentDate,
       messageDeliveryState: entityObject.messageDeliveryState,
       remoteCreationDate: entityObject.remoteCreationDate,
-      userId: entityObject.userId,
+      user: entityObject.user,
       remoteMessageId: entityObject.remoteMessageId,
       textMessage: entityObject.textMessage,
     );
@@ -49,7 +50,7 @@ class SentTextMessageModel extends SentTextMessage
     return SentTextMessageModel(
       localMessageId: remoteModel.sentDate.microsecondsSinceEpoch,
       remoteMessageId: remoteModel.remoteMessageId,
-      userId: remoteModel.receiverId,
+      user: remoteModel.receiver,
       messageDeliveryState: SentMessageDeliveryState.values.byName(
         remoteModel.messageDeliveryState,
       ),
@@ -61,11 +62,12 @@ class SentTextMessageModel extends SentTextMessage
 
   factory SentTextMessageModel.fromLocalDBModel(
     MessagesCollectionModel localModel,
+    User user,
   ) {
     return SentTextMessageModel(
       localMessageId: localModel.localMessageId,
       remoteMessageId: localModel.remoteMessageId,
-      userId: localModel.userId,
+      user: user,
       remoteCreationDate: localModel.remoteCreationDate,
       messageDeliveryState:
           localModel.sentMessageProperties!.sentMessageDeliveryState,

@@ -1,3 +1,4 @@
+import '../../../../core/user/domain/entities/user.dart';
 import '../../../domain/entities/received_message_base.dart';
 import '../../../domain/entities/text_message/received_text_message.dart';
 import '../../datasources/local/models/messages_collection_model.dart';
@@ -10,7 +11,7 @@ class ReceivedTextMessageModel extends ReceivedTextMessage
   const ReceivedTextMessageModel({
     required super.localMessageId,
     required super.remoteMessageId,
-    required super.userId,
+    required super.user,
     required super.localSentDate,
     required super.localReceivedDate,
     required super.remoteCreationDate,
@@ -33,7 +34,7 @@ class ReceivedTextMessageModel extends ReceivedTextMessage
     return ReceivedTextMessageModel(
       localMessageId: remoteModel.sentDate.microsecondsSinceEpoch,
       remoteMessageId: remoteModel.remoteMessageId,
-      userId: remoteModel.senderId,
+      user: remoteModel.sender,
       messageDeliveryState: ReceivedMessageDeliveryState.values.byName(
         remoteModel.messageDeliveryState,
       ),
@@ -47,11 +48,12 @@ class ReceivedTextMessageModel extends ReceivedTextMessage
 
   factory ReceivedTextMessageModel.fromLocalDBModel(
     MessagesCollectionModel localModel,
+    User user,
   ) {
     return ReceivedTextMessageModel(
       localMessageId: localModel.localMessageId,
       remoteMessageId: localModel.remoteMessageId,
-      userId: localModel.userId,
+      user: user,
       remoteCreationDate: localModel.remoteCreationDate,
       messageDeliveryState: localModel.receivedMessageDeliveryStateForLocalDB
           .toEntityDeliveryStateEnum(),

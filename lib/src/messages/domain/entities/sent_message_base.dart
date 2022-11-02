@@ -23,7 +23,7 @@ abstract class SentMessageBase extends MessageBase {
   const SentMessageBase({
     required super.localMessageId,
     required super.remoteMessageId,
-    required super.userId,
+    required super.user,
     required super.localSentDate,
     required super.remoteCreationDate,
     required this.messageDeliveryState,

@@ -19,7 +19,7 @@ abstract class ReceivedMessageBase extends MessageBase {
   const ReceivedMessageBase({
     required super.localMessageId,
     required super.remoteMessageId,
-    required super.userId,
+    required super.user,
     required super.localSentDate,
     required super.remoteCreationDate,
     required this.localReceivedDate,

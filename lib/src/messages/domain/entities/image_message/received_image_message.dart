@@ -1,3 +1,4 @@
+import '../../../../core/user/domain/entities/user.dart';
 import '../../../../core/utils/undefined.dart';
 import '../received_message_base.dart';
 import 'image.dart';
@@ -8,7 +9,7 @@ class ReceivedImageMessage extends ReceivedMessageBase implements ImageMessage {
   const ReceivedImageMessage({
     required super.localMessageId,
     required super.remoteMessageId,
-    required super.userId,
+    required super.user,
     required super.localSentDate,
     required super.localReceivedDate,
     required super.remoteCreationDate,
@@ -23,7 +24,7 @@ class ReceivedImageMessage extends ReceivedMessageBase implements ImageMessage {
   ReceivedImageMessage copyWith({
     int? localMessageId,
     Object? remoteMessageId = undefined,
-    String? userId,
+    User? user,
     DateTime? localSentDate,
     DateTime? localReceivedDate,
     Object? remoteCreationDate = undefined,
@@ -36,7 +37,7 @@ class ReceivedImageMessage extends ReceivedMessageBase implements ImageMessage {
       remoteMessageId: isNotPassedParameter(remoteMessageId)
           ? this.remoteMessageId
           : (remoteMessageId as String?),
-      userId: userId ?? this.userId,
+      user: user ?? this.user,
       localSentDate: localSentDate ?? this.localSentDate,
       localReceivedDate: localReceivedDate ?? this.localReceivedDate,
       remoteCreationDate: isNotPassedParameter(remoteCreationDate)
@@ -52,7 +53,7 @@ class ReceivedImageMessage extends ReceivedMessageBase implements ImageMessage {
   List<Object?> get props => [
         localMessageId,
         remoteMessageId,
-        userId,
+        user,
         localSentDate,
         localReceivedDate,
         remoteCreationDate,

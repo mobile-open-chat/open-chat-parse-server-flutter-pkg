@@ -1,6 +1,10 @@
 .fvm/flutter_sdk
 z_notes.txt
-ref.txt
+
+#nodejs
+*node_modules
+*package-lock.json
+
 
 # Miscellaneous
 *.class

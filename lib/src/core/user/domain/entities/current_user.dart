@@ -5,12 +5,15 @@ import 'user.dart';
 
 class CurrentUser extends User {
   final Set<String> blockedUsersIDs;
+  final Set<String> chatUsersIDs;
+  
   const CurrentUser({
     required super.userId,
     required super.name,
     super.profileImageFile,
     super.profileImageURL,
     required this.blockedUsersIDs,
+    required this.chatUsersIDs,
   });
 
   @override
@@ -20,6 +23,7 @@ class CurrentUser extends User {
     Object? profileImageURL = undefined,
     Object? profileImageFile = undefined,
     Set<String>? blockedUsersIDs,
+    Set<String>? chatUsersIDs,
   }) {
     return CurrentUser(
       userId: userId ?? this.userId,
@@ -31,6 +35,7 @@ class CurrentUser extends User {
           ? this.profileImageFile
           : (profileImageFile as File?),
       blockedUsersIDs: blockedUsersIDs ?? this.blockedUsersIDs,
+      chatUsersIDs: chatUsersIDs ?? this.chatUsersIDs,
     );
   }
 
@@ -38,5 +43,6 @@ class CurrentUser extends User {
   List<Object?> get props => [
         ...super.props,
         blockedUsersIDs,
+        chatUsersIDs,
       ];
 }

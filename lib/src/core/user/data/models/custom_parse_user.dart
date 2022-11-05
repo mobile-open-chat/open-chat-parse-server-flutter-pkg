@@ -11,7 +11,10 @@ class CustomParseUser extends ParseUser
   static const keyName = 'name';
   static const keyProfileImage = 'profileImage';
   static const keyUniqueUserName = keyVarUsername;
-  static const keyBlockedUsers = 'blockedUsers';
+  static const keyBlockedUsersArray = 'blockedUsersArray';
+  static const keyBlockedUsersRelation = 'blockedUsersRelation';
+  static const keyChatUsersArray = 'chatUsersArray';
+  static const keyChatUsersRelation = 'chatUsersRelation';
   static const keyEmail = ParseUser.keyEmailAddress;
 
   CustomParseUser(
@@ -64,19 +67,27 @@ class CustomParseUser extends ParseUser
     set(keyProfileImage, parseFile);
   }
 
-  Set<String> getListOfBlockedUsers() {
+  Set<String> getBlockedUsersIDs() {
     return Set<String>.of(
-      get<List<dynamic>?>(keyBlockedUsers)?.cast<String>() ?? [],
+      get<List<dynamic>?>(keyBlockedUsersArray)?.cast<String>() ?? [],
+    );
+  }
+
+  Set<String> getChatUsersIDs() {
+    return Set<String>.of(
+      get<List<dynamic>?>(keyChatUsersArray)?.cast<String>() ?? [],
     );
   }
 
   @override
   List<Object?> get props => [
-        get<String>(keyVarObjectId),
-        emailAddress,
+        get<String?>(keyVarObjectId),
         username,
-        get<String>(keyName),
-        get<ParseFile>(keyProfileImage)?.url,
-        get<ParseFile>(keyProfileImage)?.name,
+        emailAddress,
+        get<String?>(keyName),
+        get<List>(keyChatUsersArray),
+        get<List>(keyBlockedUsersArray),
+        get<ParseFile?>(keyProfileImage)?.url,
+        get<ParseFile?>(keyProfileImage)?.name,
       ];
 }

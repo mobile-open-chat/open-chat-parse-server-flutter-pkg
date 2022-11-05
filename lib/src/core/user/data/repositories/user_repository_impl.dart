@@ -51,7 +51,8 @@ extension _ToCurrentUser on CustomParseUser {
     return CurrentUser(
       userId: userId,
       name: name,
-      blockedUsersIDs: getListOfBlockedUsers(),
+      blockedUsersIDs: getBlockedUsersIDs(),
+      chatUsersIDs: getChatUsersIDs(),
       profileImageFile: profileImageFile,
       profileImageURL: profileImageURL,
     );

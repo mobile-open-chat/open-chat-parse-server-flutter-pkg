@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "firebase-admin": "^11.2.0",
+    "image-thumbnail": "^1.0.15",
+    "parse": "^3.5.0"
+  }
+}

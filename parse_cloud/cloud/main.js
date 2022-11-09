@@ -181,3 +181,128 @@ async function createThumbnail(message) {
     console.log("error while generating image thumbnail error:" + error);
   }
 }
+
+Parse.Cloud.afterSave("Messages", async (request) => {
+  const message = request.object;
+  sendPushNotificationToReceiver(message);
+  const sender = await message.get("sender").fetch({ useMasterKey: true });
+  const receiver = await message.get("receiver").fetch({ useMasterKey: true });
+
+  addUser1ToChatUsersListForUser2(sender, receiver);
+  addUser1ToChatUsersListForUser2(receiver, sender);
+});
+
+/**
+ * @param {Parse.Object<Parse.Attributes>} user1
+ * @param {Parse.Object<Parse.Attributes>} user2
+ */
+async function addUser1ToChatUsersListForUser2(user1, user2) {
+  let user2ChatUsersList = user2.get("chatUsersArray");
+  let isAlreadyAdded = user2ChatUsersList.includes(user1.id);
+  if (isAlreadyAdded) {
+    return;
+  }
+  user2.addUnique("chatUsersArray", user1.id);
+  user2.relation("chatUsersArray").add(user1);
+  await user2.save(null, { useMasterKey: true });
+}
+
+/**
+ * @param {Parse.Object<Parse.Attributes>} message
+ */
+async function sendPushNotificationToReceiver(message) {
+  let sender = await message.get("sender").fetch({ useMasterKey: true });
+  let receiver = await message.get("receiver").fetch({ useMasterKey: true });
+
+  let senderName = sender.get("name");
+  let senderProfileImage = sender.get("profileImage");
+
+  let textMessage = message.get("textMessage");
+  let messageType = message.get("messageType");
+  if (messageType === "image") {
+    textMessage = "📷️ Image";
+  }
+
+  let options = {
+    priority: "high",
+    timeToLive: 60 * 60 * 24,
+    contentAvailable: true,
+  };
+
+  let payload = {
+    data: {
+      messageType: messageType,
+      senderName: senderName,
+      textMessage: textMessage,
+      senderId: sender.id,
+    },
+  };
+
+  if (senderProfileImage != null) {
+    payload.data["profileImageUrl"] = senderProfileImage.url();
+  }
+
+  let installationQuery = new Parse.Query(Parse.Installation);
+  installationQuery.equalTo("user", receiver);
+
+  installationQuery
+    .find({ useMasterKey: true })
+    .then((installations) => {
+      for (const installation of installations) {
+        let token = installation.get("deviceToken");
+
+        if (token != null || token != "") {
+          sendPushNotificationUsingFireBaseAdmin(token, payload, options);
+        }
+      }
+    })
+    .catch(function (error) {
+      console.log(
+        "messaging=>********** Got an error  while getting the installations for the receiver user:  " +
+          receiver +
+          +" error code:" +
+          error.code +
+          " , message: " +
+          error.message
+      );
+    });
+}
+
+function sendPushNotificationUsingFireBaseAdmin(token, payload, options) {
+  // If we receive either of these error code responses for a targeted token,
+  // it is safe to delete the installation record of this token, since it will never again be valid
+  const UNREGISTERED = "messaging/invalid-registration-token";
+  const INVALID_ARGUMENT = "messaging/invalid-argument";
+  const NOT_REGISTERED = "messaging/registration-token-not-registered";
+
+  firebaseAdmin
+    .messaging()
+    .sendToDevice(token, payload, options)
+    .then(function (response) {
+      if (response.failureCount != 0) {
+        let error = response.results[0].error;
+        if (
+          error.code == UNREGISTERED ||
+          error.code == INVALID_ARGUMENT ||
+          error.code == NOT_REGISTERED
+        ) {
+          deleteDeviceTokenFromInstallationRecord(token);
+        } else {
+          console.log(
+            "messaging =>********** Got an error " +
+              error.code +
+              " : " +
+              error.message
+          );
+        }
+      }
+    })
+    .catch(function (error) {
+      console.log(
+        "messaging =>********** Got an error " +
+          error.code +
+          " : " +
+          error.message
+      );
+    });
+}

@@ -7,10 +7,11 @@ import '../../../domain/entities/received_message_base.dart';
 import '../../datasources/local/models/messages_collection_model.dart';
 import '../../datasources/remote/models/remote_message_model.dart';
 import '../../utils/enums.dart';
+import '../message_model.dart';
 import '../model_converter.dart';
 
 class ReceivedImageMessageModel extends ReceivedImageMessage
-    with ReceivedMessageModelConverterMixin {
+    implements MessageModel {
   const ReceivedImageMessageModel({
     required super.localMessageId,
     required super.remoteMessageId,
@@ -48,7 +49,7 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
       ..width = receivedImage.imageMetaData.width
       ..size = receivedImage.imageMetaData.size;
 
-    return super.toLocalDBModel()
+    return buildLocalDBModel()
       ..messageType = MessageType.image.name
       ..imageMessage = localImageMessage;
   }
@@ -113,5 +114,10 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
       localReceivedDate:
           localModel.receivedMessageProperties!.localReceivedDate,
     );
+  }
+
+  @override
+  RemoteMessageModel toRemoteModel() {
+    throw UnimplementedError();
   }
 }

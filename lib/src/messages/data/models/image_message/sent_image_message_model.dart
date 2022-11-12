@@ -3,14 +3,15 @@ import 'dart:io';
 import '../../../../core/user/domain/entities/user.dart';
 import '../../../domain/entities/image_message/image.dart' hide ImageMessage;
 import '../../../domain/entities/image_message/sent_image_message.dart';
+import '../../../domain/entities/messages_base.dart';
 import '../../../domain/entities/sent_message_base.dart';
 import '../../datasources/local/models/messages_collection_model.dart';
 import '../../datasources/remote/models/remote_message_model.dart';
 import '../../utils/enums.dart';
+import '../message_model.dart';
 import '../model_converter.dart';
 
-class SentImageMessageModel extends SentImageMessage
-    with SentMessageModelConverterMixin {
+class SentImageMessageModel extends SentImageMessage implements MessageModel {
   const SentImageMessageModel({
     required super.localMessageId,
     required super.remoteMessageId,
@@ -42,14 +43,14 @@ class SentImageMessageModel extends SentImageMessage
       ..width = sentImage.imageMetaData.width
       ..size = sentImage.imageMetaData.size;
 
-    return super.toLocalDBModel()
+    return buildLocalDBModel()
       ..messageType = MessageType.image.name
       ..imageMessage = localImageMessage;
   }
 
   @override
   RemoteMessageModel toRemoteModel() {
-    return super.toRemoteModel()
+    return buildRemoteModel()
       ..messageType = MessageType.image
       ..remoteFile = sentImage.imageFile
       ..remoteFileURL = sentImage.imageURL

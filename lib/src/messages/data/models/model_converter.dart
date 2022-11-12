@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 import '../../domain/entities/image_message/image.dart';
 import '../../domain/entities/messages_base.dart';
 import '../../domain/entities/received_message_base.dart';
@@ -8,7 +6,7 @@ import '../datasources/local/models/messages_collection_model.dart';
 import '../datasources/remote/models/remote_message_model.dart';
 import '../utils/enums.dart';
 
-extension _BuildLocalMessageFoundation on MessagesCollectionModel {
+extension BuildLocalMessageFoundation on MessagesCollectionModel {
   MessagesCollectionModel buildLocalMessageFoundation(MessageBase messageBase) {
     return this
       ..localMessageId = messageBase.localMessageId
@@ -19,9 +17,8 @@ extension _BuildLocalMessageFoundation on MessagesCollectionModel {
   }
 }
 
-mixin ReceivedMessageModelConverterMixin on ReceivedMessageBase {
-  @mustCallSuper
-  MessagesCollectionModel toLocalDBModel() {
+extension BuildLocalDBModelForReceivedMessage on ReceivedMessageBase {
+  MessagesCollectionModel buildLocalDBModel() {
     return MessagesCollectionModel().buildLocalMessageFoundation(this)
       ..receivedMessageDeliveryStateForLocalDB =
           messageDeliveryState.toDataBaseModelDeliveryStateEnum()
@@ -30,18 +27,18 @@ mixin ReceivedMessageModelConverterMixin on ReceivedMessageBase {
   }
 }
 
-mixin SentMessageModelConverterMixin on SentMessageBase {
-  @mustCallSuper
-  MessagesCollectionModel toLocalDBModel() {
+extension BuildLocalDBModelForSentMessage on SentMessageBase {
+  MessagesCollectionModel buildLocalDBModel() {
     return MessagesCollectionModel().buildLocalMessageFoundation(this)
       ..receivedMessageDeliveryStateForLocalDB =
           ReceivedMessageDeliveryStateForLocalDB.nil
       ..sentMessageProperties = (SentMessageProperties()
         ..sentMessageDeliveryState = messageDeliveryState);
   }
+}
 
-  @mustCallSuper
-  RemoteMessageModel toRemoteModel() {
+extension BuildRemoteModelForSentMessage on SentMessageBase {
+  RemoteMessageModel buildRemoteModel() {
     return RemoteMessageModel()
       ..sentDate = localSentDate
       ..receiver = user

@@ -88,6 +88,18 @@ class RemoteMessageModel extends ParseObject with EquatableMixin {
 
   DateTime get remoteCreationDate => get(keyRemoteCreationDate) as DateTime;
 
+  bool isTextMessage() {
+    return receivedMessageType == MessageType.text.name;
+  }
+
+  bool isImageMessage() {
+    return receivedMessageType == MessageType.image.name;
+  }
+
+  bool isReceivedMessage(String currentUserId) {
+    return receiver.userId == currentUserId;
+  }
+
   @override
   List<Object?> get props => [
         get(keyRemoteMessageId),

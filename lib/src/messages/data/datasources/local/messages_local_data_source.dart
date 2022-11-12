@@ -8,6 +8,7 @@ import 'package:path/path.dart' as path;
 
 import '../../../../core/database/isar_database.dart';
 import '../../messaging_process_manager/utils/utils_functions.dart';
+import '../../utils/enums.dart';
 import 'models/messages_collection_model.dart';
 
 abstract class MessagesLocalDataSource {
@@ -19,6 +20,8 @@ abstract class MessagesLocalDataSource {
   String getDBPath();
 
   Future<MessagesCollectionModel> getMessageByLocalId(int messageId);
+
+  Future<DateTime?> getLastReceivedMessageDate();
 
   Future<void> locallyGenerateImageThumbnailAndStoreIt(
     int localMessageId,
@@ -69,6 +72,18 @@ class MessagesLocalDataSourceImpl extends MessagesLocalDataSource {
         .where()
         .localMessageIdEqualTo(messageId)
         .findFirst())!;
+  }
+
+  @override
+  Future<DateTime?> getLastReceivedMessageDate() async {
+    return _isarDataBase.isar.Messages
+        .where(sort: Sort.desc)
+        .receivedMessageDeliveryStateForLocalDBNotEqualTo(
+          ReceivedMessageDeliveryStateForLocalDB.nil,
+        )
+        .limit(1)
+        .remoteCreationDateProperty()
+        .findFirst();
   }
 
   @override

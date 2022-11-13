@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart' show protected;
@@ -7,6 +8,7 @@ import '../../../core/error/exceptions/exception_base.dart';
 import '../../../core/error/exceptions/server_exception.dart';
 import '../../../core/error/exceptions/user_exception.dart';
 import '../../../core/utils/either.dart';
+import '../../domain/entities/connection_state.dart';
 import '../../domain/entities/sent_message_base.dart';
 import '../../domain/entities/text_message/sent_text_message.dart';
 import '../datasources/local/messages_local_data_source.dart';
@@ -25,7 +27,20 @@ class SendTextMessageProcessManager
   SendTextMessageProcessManager(
     this._messagesLocalDataSource,
     this._messagesRemoteDataSource,
-  );
+  ) {
+    late final StreamSubscription subscription;
+    subscription = _messagesRemoteDataSource.connectionStateStream().listen(
+      (connectionState) {
+        if (connectionState == ConnectionState.connected ||
+            connectionState == ConnectionState.updated) {
+          _restartAllPendingProcesses();
+        }
+      },
+      onDone: () {
+        subscription.cancel();
+      },
+    );
+  }
 
   final Map<int, Future<ErrorOrMessage>> _sendingProcesses = {};
 

@@ -107,8 +107,8 @@ class MessageRepositoryImpl extends MessagesRepository {
 
     StreamSubscription? subscription;
 
-    void dispose() {
-      subscription?.cancel();
+    Future<void> dispose() async {
+      await subscription?.cancel();
       subscription = null;
       messagesStreamController?.close();
       messagesStreamController = null;

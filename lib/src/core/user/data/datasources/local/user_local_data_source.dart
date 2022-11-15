@@ -10,7 +10,9 @@ abstract class UserLocalDataSource {
 class UserLocalDataSourceImpl extends UserLocalDataSource {
   @override
   Future<CustomParseUser> getCurrentUser() async {
-    final currentUser = await ParseUser.currentUser() as CustomParseUser?;
+    final currentUser = await ParseUser.currentUser(
+      customUserObject: CustomParseUser(null, null, null),
+    ) as CustomParseUser?;
 
     return currentUser ?? (throw const NoUserLoggedException('No user found'));
   }

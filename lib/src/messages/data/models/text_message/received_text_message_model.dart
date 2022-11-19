@@ -3,13 +3,13 @@ import '../../../domain/entities/received_message_base.dart';
 import '../../../domain/entities/text_message/received_text_message.dart';
 import '../../datasources/local/models/messages_collection_model.dart';
 import '../../datasources/remote/models/remote_message_model.dart';
-import '../../utils/enums.dart';
+
 import '../message_model.dart';
 import '../model_converter.dart';
 
 class ReceivedTextMessageModel extends ReceivedTextMessage
     implements MessageModel {
-  const ReceivedTextMessageModel({
+    ReceivedTextMessageModel({
     required super.localMessageId,
     required super.remoteMessageId,
     required super.user,
@@ -24,7 +24,6 @@ class ReceivedTextMessageModel extends ReceivedTextMessage
   @override
   MessagesCollectionModel toLocalDBModel() {
     return buildLocalDBModel()
-      ..messageType = MessageType.text.name
       ..textMessage = (TextMessage()..text = textMessage);
   }
 

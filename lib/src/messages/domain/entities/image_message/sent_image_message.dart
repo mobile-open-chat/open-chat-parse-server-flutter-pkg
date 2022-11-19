@@ -1,12 +1,13 @@
 import '../../../../core/user/domain/entities/user.dart';
 import '../../../../core/utils/undefined.dart';
+import '../message_type.dart';
 import '../sent_message_base.dart';
 import 'image.dart';
 
 class SentImageMessage extends SentMessageBase implements ImageMessage {
   final Image sentImage;
 
-  const SentImageMessage({
+  SentImageMessage({
     required super.localMessageId,
     required super.remoteMessageId,
     required super.user,
@@ -14,7 +15,7 @@ class SentImageMessage extends SentMessageBase implements ImageMessage {
     required super.remoteCreationDate,
     required super.messageDeliveryState,
     required this.sentImage,
-  });
+  }) : super(messageType: MessageType.image.name);
 
   @override
   Image get image => sentImage;

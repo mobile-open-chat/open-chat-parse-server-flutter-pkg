@@ -22,6 +22,7 @@ abstract class ReceivedMessageBase extends MessageBase {
     required super.user,
     required super.localSentDate,
     required super.remoteCreationDate,
+    required super.messageType,
     required this.localReceivedDate,
     required this.messageDeliveryState,
     required this.isLiveMessage,

@@ -1,11 +1,12 @@
 import '../../../../core/user/domain/entities/user.dart';
 import '../../../../core/utils/undefined.dart';
+import '../message_type.dart';
 import '../received_message_base.dart';
 
 class ReceivedTextMessage extends ReceivedMessageBase {
   final String textMessage;
 
-  const ReceivedTextMessage({
+  ReceivedTextMessage({
     required super.localMessageId,
     required super.remoteMessageId,
     required super.user,
@@ -15,7 +16,7 @@ class ReceivedTextMessage extends ReceivedMessageBase {
     required super.messageDeliveryState,
     required super.isLiveMessage,
     required this.textMessage,
-  });
+  }) : super(messageType: MessageType.text.name);
 
   ReceivedTextMessage copyWith({
     int? localMessageId,

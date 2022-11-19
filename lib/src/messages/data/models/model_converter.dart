@@ -1,4 +1,5 @@
 import '../../domain/entities/image_message/image.dart';
+import '../../domain/entities/message_type.dart';
 import '../../domain/entities/messages_base.dart';
 import '../../domain/entities/received_message_base.dart';
 import '../../domain/entities/sent_message_base.dart';
@@ -12,6 +13,7 @@ extension BuildLocalMessageFoundation on MessagesCollectionModel {
       ..localMessageId = messageBase.localMessageId
       ..remoteMessageId = messageBase.remoteMessageId
       ..userId = messageBase.user.userId
+      ..messageType = messageBase.messageType
       ..localSentDate = messageBase.localSentDate
       ..remoteCreationDate = messageBase.remoteCreationDate;
   }
@@ -42,6 +44,7 @@ extension BuildRemoteModelForSentMessage on SentMessageBase {
     return RemoteMessageModel()
       ..sentDate = localSentDate
       ..receiver = user
+      ..messageType = MessageType.values.byName(messageType)
       ..messageDeliveryState = SentMessageDeliveryState.sent.name;
   }
 }

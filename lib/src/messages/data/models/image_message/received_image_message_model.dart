@@ -6,13 +6,12 @@ import '../../../domain/entities/image_message/received_image_message.dart';
 import '../../../domain/entities/received_message_base.dart';
 import '../../datasources/local/models/messages_collection_model.dart';
 import '../../datasources/remote/models/remote_message_model.dart';
-import '../../utils/enums.dart';
 import '../message_model.dart';
 import '../model_converter.dart';
 
 class ReceivedImageMessageModel extends ReceivedImageMessage
     implements MessageModel {
-  const ReceivedImageMessageModel({
+  ReceivedImageMessageModel({
     required super.localMessageId,
     required super.remoteMessageId,
     required super.user,
@@ -49,9 +48,7 @@ class ReceivedImageMessageModel extends ReceivedImageMessage
       ..width = receivedImage.imageMetaData.width
       ..size = receivedImage.imageMetaData.size;
 
-    return buildLocalDBModel()
-      ..messageType = MessageType.image.name
-      ..imageMessage = localImageMessage;
+    return buildLocalDBModel()..imageMessage = localImageMessage;
   }
 
   factory ReceivedImageMessageModel.fromRemoteModel(

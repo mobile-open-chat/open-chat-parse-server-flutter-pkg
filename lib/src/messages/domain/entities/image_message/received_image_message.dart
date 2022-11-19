@@ -1,12 +1,13 @@
 import '../../../../core/user/domain/entities/user.dart';
 import '../../../../core/utils/undefined.dart';
+import '../message_type.dart';
 import '../received_message_base.dart';
 import 'image.dart';
 
 class ReceivedImageMessage extends ReceivedMessageBase implements ImageMessage {
   final Image receivedImage;
 
-  const ReceivedImageMessage({
+    ReceivedImageMessage({
     required super.localMessageId,
     required super.remoteMessageId,
     required super.user,
@@ -16,7 +17,7 @@ class ReceivedImageMessage extends ReceivedMessageBase implements ImageMessage {
     required super.messageDeliveryState,
     required super.isLiveMessage,
     required this.receivedImage,
-  });
+  }): super(messageType: MessageType.image.name);
   
   @override
   Image get image => receivedImage;

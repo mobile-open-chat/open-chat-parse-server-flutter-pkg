@@ -37,7 +37,7 @@ class MessageRepositoryImpl extends MessagesRepository {
   final ProcessManagerBase<ValueStreamOfProgressOrImageMessage, ImageMessage>
       _downloadImageMessageProcessManager;
 
-  const MessageRepositoryImpl(
+  MessageRepositoryImpl(
     this._messagesLocalDataSource,
     this._messagesRemoteDataSource,
     this._sendTextMessageProcessManager,
@@ -173,5 +173,16 @@ class MessageRepositoryImpl extends MessagesRepository {
     }
     // TODO :: add not supported message
     throw UnimplementedError();
+  }
+
+  String? _currentOpenedChatID;
+  @override
+  String? getCurrentOpenedChatID() {
+    return _currentOpenedChatID;
+  }
+
+  @override
+  void setCurrentOpenedChatID(String? chatID) {
+    _currentOpenedChatID = chatID;
   }
 }

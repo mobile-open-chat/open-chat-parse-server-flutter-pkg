@@ -1,11 +1,12 @@
 import '../../../../core/user/domain/entities/user.dart';
 import '../../../../core/utils/undefined.dart';
+import '../message_type.dart';
 import '../sent_message_base.dart';
 
 class SentTextMessage extends SentMessageBase {
   final String textMessage;
 
-  const SentTextMessage({
+  SentTextMessage({
     required super.localMessageId,
     required super.remoteMessageId,
     required super.user,
@@ -13,7 +14,7 @@ class SentTextMessage extends SentMessageBase {
     required super.remoteCreationDate,
     required super.messageDeliveryState,
     required this.textMessage,
-  });
+  }) : super(messageType: MessageType.text.name);
 
   SentTextMessage copyWith({
     int? localMessageId,

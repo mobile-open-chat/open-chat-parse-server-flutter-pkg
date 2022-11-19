@@ -2,12 +2,15 @@ import 'package:equatable/equatable.dart';
 
 import '../../../core/user/domain/entities/user.dart';
 
+
+
 abstract class MessageBase extends Equatable {
   final int localMessageId;
   final String? remoteMessageId;
   final User user;
   final DateTime localSentDate;
   final DateTime? remoteCreationDate;
+  final String messageType;
 
   const MessageBase({
     required this.localMessageId,
@@ -15,5 +18,6 @@ abstract class MessageBase extends Equatable {
     required this.user,
     required this.localSentDate,
     required this.remoteCreationDate,
+    required this.messageType,
   });
 }

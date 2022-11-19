@@ -1,7 +1,5 @@
 import '../../domain/entities/received_message_base.dart';
 
-enum MessageType { text, image }
-
 /// #### Don't change the order of the properties
 /// the index of the property is stored in the DB
 enum ReceivedMessageDeliveryStateForLocalDB {

@@ -217,6 +217,8 @@ async function sendPushNotificationToReceiver(message) {
   let senderName = sender.get("name");
   let senderProfileImage = sender.get("profileImage");
 
+  let localSentDate = message.get("localSentDate");
+
   let textMessage = message.get("textMessage");
   let messageType = message.get("messageType");
   if (messageType === "image") {
@@ -232,14 +234,15 @@ async function sendPushNotificationToReceiver(message) {
   let payload = {
     data: {
       messageType: messageType,
-      senderName: senderName,
-      textMessage: textMessage,
-      senderId: sender.id,
+      notificationID: localSentDate,
+      title: senderName,
+      bodyText: textMessage,
+      groupID: sender.id,
     },
   };
 
   if (senderProfileImage != null) {
-    payload.data["profileImageUrl"] = senderProfileImage.url();
+    payload.data["largeIconURL"] = senderProfileImage.url();
   }
 
   let installationQuery = new Parse.Query(Parse.Installation);

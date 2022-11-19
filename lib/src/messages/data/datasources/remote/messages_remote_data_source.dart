@@ -11,7 +11,7 @@ import '../../../../core/error/exceptions/server_exception.dart';
 import '../../../../core/error/exceptions/user_exception.dart';
 import '../../../../core/user/data/models/custom_parse_user.dart';
 import '../../../domain/entities/connection_state.dart';
-import '../../utils/enums.dart';
+import '../../../domain/entities/message_type.dart';
 import 'models/remote_message_model.dart';
 
 abstract class MessagesRemoteDataSource {

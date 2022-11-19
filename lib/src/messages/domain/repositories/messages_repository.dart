@@ -20,4 +20,7 @@ abstract class MessagesRepository {
   );
 
   Stream<MessageBase> listenForMessages();
+
+  void setCurrentOpenedChatID(String? chatID);
+  String? getCurrentOpenedChatID();
 }

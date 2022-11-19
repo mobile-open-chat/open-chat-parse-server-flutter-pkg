@@ -7,7 +7,7 @@ import "package:path/path.dart" as path;
 
 import '../../../../../core/user/data/models/custom_parse_user.dart';
 import '../../../../../core/user/domain/entities/user.dart';
-import '../../../utils/enums.dart';
+import '../../../../domain/entities/message_type.dart';
 
 class RemoteMessageModel extends ParseObject with EquatableMixin {
   RemoteMessageModel() : super.clone(keyClassName);

@@ -21,6 +21,7 @@ dependencies:
   # Utils & tools
   image_picker: ^0.8.6
   rxdart: ^0.27.5
+  async: "2.9.0"
   stream_transform: ^2.0.1
   get_it: ^7.2.0
   path_provider: ^2.0.11
@@ -53,3 +54,5 @@ dev_dependencies:
   build_runner: any
 
 flutter:
+  assets:
+    - assets/images

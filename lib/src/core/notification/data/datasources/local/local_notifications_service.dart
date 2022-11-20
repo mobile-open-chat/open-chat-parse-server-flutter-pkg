@@ -1,7 +1,9 @@
-// ignore_for_file: avoid_redundant_argument_values, constant_identifier_names
+// ignore_for_file: avoid_redundant_argument_values, constant_identifier_names, avoid_classes_with_only_static_members
+
+import 'dart:developer';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show NavigatorState, Colors;
 
 import '../../../../services/permission_manager.dart';
 import '../../model/notification_payload.dart';
@@ -14,6 +16,8 @@ abstract class LocalNotificationsService {
   factory LocalNotificationsService.impl(PermissionManager permissionManager) =>
       LocalNotificationsServiceImpl(permissionManager);
 
+  Future<void> initialize();
+
   Future<bool> isNotificationsAllowed();
 
   Future<void> showMessageNotification(NotificationPayload payload);
@@ -24,7 +28,7 @@ abstract class LocalNotificationsService {
 
   Future<void> disposeNotificationGroup(String notificationGroupID);
 
-  Future<void> initialize();
+  Future<bool> setUpNotificationsListeners(NavigatorState navigatorState);
 }
 
 class LocalNotificationsServiceImpl extends LocalNotificationsService {
@@ -55,6 +59,7 @@ class LocalNotificationsServiceImpl extends LocalNotificationsService {
   @override
   Future<bool> initialize() {
     _permissionManager.requestPermissionToSendNotifications();
+
     return AwesomeNotifications().initialize(
       null,
       [
@@ -112,5 +117,29 @@ class LocalNotificationsServiceImpl extends LocalNotificationsService {
         actionType: ActionType.Default,
       ),
     );
+  }
+
+  @override
+  Future<bool> setUpNotificationsListeners(NavigatorState navigatorState) {
+    _NotificationController.navigatorState = navigatorState;
+
+    return AwesomeNotifications().setListeners(
+      onActionReceivedMethod: _NotificationController.onActionReceivedMethod,
+    );
+  }
+}
+
+class _NotificationController {
+  static NavigatorState? navigatorState;
+
+  @pragma("vm:entry-point")
+  static Future<void> onActionReceivedMethod(
+    ReceivedAction receivedAction,
+  ) async {
+    if (navigatorState == null) {
+      final error = ArgumentError.notNull('navigatorState');
+      log('Did you forgat to setup NotificationsListeners?', error: error);
+      throw error;
+    }
   }
 }

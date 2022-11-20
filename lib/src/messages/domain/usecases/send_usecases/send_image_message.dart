@@ -6,6 +6,7 @@ import 'package:flutter/painting.dart' as flutter_painting
 
 import '../../../../core/usecases/usecase.dart';
 import '../../../../core/user/domain/entities/user.dart';
+import '../../../../core/utils/either.dart';
 import '../../../utils/chat_typedef.dart';
 import '../../entities/image_message/image.dart';
 import '../../entities/image_message/sent_image_message.dart';
@@ -46,6 +47,9 @@ class SendImageMessage
         localMessageId: dateTime.microsecondsSinceEpoch,
         sentImage: image,
       );
+
+      // So the user can see the image while its sending
+      yield Right(message);
 
       yield* _messagesRepository.sendImageMessage(message);
     } else {

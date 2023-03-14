@@ -49,7 +49,7 @@ class SendImageMessage
       );
 
       // So the user can see the image while its sending
-      yield Right(message);
+      yield* Stream.value(Right(message));
 
       yield* _messagesRepository.sendImageMessage(message);
     } else {
